@@ -1,10 +1,8 @@
 package com.leitour.Model;
 
-import android.widget.Switch;
+import java.io.Serializable;
 
-import com.leitour.Database.DatabaseHelper;
-
-public class Book {
+public class Book implements Serializable {
     private int isbn;
     private String name;
     private String author;

@@ -3,6 +3,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.leitour.Model.Book;
 import com.leitour.R;
 
 import java.util.ArrayList;
@@ -22,15 +24,12 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.MyViewHolder
 
     private Context context;
     private Activity activity;
-    private ArrayList _id, _nome, _email, _mensagem;
+    private ArrayList _books;
 
-    SavedAdapter(Activity activity, Context context, ArrayList _id, ArrayList _nome, ArrayList _email, ArrayList _mensagem){
+    SavedAdapter(Activity activity, Context context, ArrayList _books){
         this.activity = activity;
         this.context = context;
-        this._id = _id;
-        this._nome = _nome;
-        this._email = _email;
-        this._mensagem = _mensagem;
+        this._books = _books;
     }
 
     @NonNull
@@ -43,30 +42,35 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-   /*     holder._id.setText(String.valueOf(_id.get(position)));
-        holder._nome.setText(String.valueOf(_nome.get(position)));
-        holder._email.setText(String.valueOf(_email.get(position)));
-        holder._mensagem.setText(String.valueOf(_mensagem.get(position)));
+        Book book = (Book) _books.get(position);
+        holder.cover.setImageResource(book.getCover());
+        holder.title.setText(book.getName());
+        holder.author.setText(book.getAuthor());
 
         holder.saved_book_layout.setOnClickListener(view -> {
-            Intent intent = new Intent(context, UpdateActivity.class);
+            Intent intent = new Intent(context, BookActivity.class);
             intent.putExtra("book", book);
             activity.startActivityForResult(intent, 1);
-        });*/
+        });
     }
 
     @Override
-    public int getItemCount() {return _id.size();}
+    public int getItemCount() {
+        return 0;
+    }
+
+    //  @Override
+    //public int getItemCount() {return _isbn.size();}
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView cover;
-        TextView title, alteration;
+        TextView title, author;
         LinearLayout saved_book_layout;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             cover = itemView.findViewById(R.id.saved_book_cover);
             title = itemView.findViewById(R.id.saved_book_title);
-            alteration = itemView.findViewById(R.id.saved_book_last_alteration);
+            author = itemView.findViewById(R.id.saved_book_author);
             saved_book_layout = itemView.findViewById(R.id.saved_book_layout);
         }
     }
