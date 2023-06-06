@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.leitour.Database.DatabaseHelper;
 import com.leitour.Model.Book;
 import com.leitour.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
         btn.setOnClickListener(view -> {
             TextView texto = findViewById(R.id.placeholder);
-            Book livro = new Book(i,"oi","Zezinho",41,1, (byte) 156,"Bando de burro","Port","2022");
+            Book livro = new Book(i, i + "OI","Zezinho",41,1, (byte) 156,"Bando de burro","Port","2022");
             DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
             dbHelper.insertBook(livro);
+            texto.setText(String.valueOf(i));
             i = i+1;
         });
 
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
       //  startActivity(intent);
         btn2.setOnClickListener(view -> startActivity(intent));
     }
+
+
+
 
 
 

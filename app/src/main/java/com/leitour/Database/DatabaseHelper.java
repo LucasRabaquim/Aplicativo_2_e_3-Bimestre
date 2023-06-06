@@ -88,13 +88,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Toast.makeText(context, alerta, Toast.LENGTH_SHORT).show();
     }
 
-    public Cursor selectBooks(){
+    public ArrayList<Book> selectBooks(){
         String query = "SELECT * FROM " + TbBook.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         if(db != null)
             cursor = db.rawQuery(query, null);
-        return cursor;
+
+        ArrayList<Book> books = new ArrayList<>();
+
+
+
+        if(cursor != null)
+           while (cursor.moveToNext()) {
+                Book book = new Book();
+                book.setIsbn(cursor.getInt(0));
+                book.setName(cursor.getString(1));
+                book.setAuthor(cursor.getString(2));
+                book.setPages(cursor.getInt(3));
+                book.setEdition(cursor.getInt(4));
+                book.setCover((byte) cursor.getInt(5));
+                book.setSinopse(cursor.getString(6));
+                book.setYear(cursor.getString(7));
+                book.setLanguage(cursor.getString(8));
+                books.add(book);
+            }
+        return books;
     }
 
     public void insertUser(User user){

@@ -1,87 +1,70 @@
 package com.leitour.View;
-import static androidx.core.content.ContextCompat.startActivity;
-import static java.security.AccessController.getContext;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
-import android.content.Context;
-import android.content.Intent;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
 import com.leitour.Model.Book;
 import com.leitour.R;
-
 import java.util.ArrayList;
 
-public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.SavedHolder> {
+public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> {
+    Context context;
+    ArrayList<Book> books;
+    public SavedAdapter(@NonNull Context context, ArrayList<Book> _books) {
+        this.context = context;
+        this.books = _books;
+    }
 
 
-    private final ArrayList<Book> _books;
-
-    private Context context;
-    public SavedAdapter(Context context, ArrayList<Book> _books){
-        this._books = _books;
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        ImageView cover;
+        TextView title, author;
+        LinearLayout mainLayout;
+        public ViewHolder(@NonNull View view){
+            super(view);
+            this.title= view.findViewById(R.id.saved_book_title);
+            this.author= view.findViewById(R.id.saved_book_author);
+            this.cover= view.findViewById(R.id.saved_book_cover);
+            mainLayout = view.findViewById(R.id.recycler_saved_book);
+        }
     }
 
     @NonNull
     @Override
-    public SavedHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.saved_book_item, parent, false);
-        return new SavedHolder(view);
+    public SavedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.saved_book_item, parent, false)
+        );
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SavedHolder holder, @SuppressLint("RecyclerView") final int position) {
-        Book book = _books.get(position);
-        holder.cover.setImageResource(book.getCover());
+    public void onBindViewHolder(@NonNull SavedAdapter.ViewHolder holder, int position) {
+        Book book = books.get(position);
         holder.title.setText(book.getName());
         holder.author.setText(book.getAuthor());
+        Bitmap bitmap = BitmapFactory.decodeByteArray(book.getCover() , 0, book.getCover() .length);
+        holder.cover.setImageBitmap(bitmap);
 
-        Log.d("Autor", (String) holder.author.getText());
         Log.d("Titulo", (String) holder.title.getText());
-
-
-        holder.saved_book_layout.setOnClickListener(view -> {
-            context.startActivity(new Intent(context, BookActivity.class)
-                    .putExtra("book", book));
+        Log.d("author", (String) holder.author.getText());
+        holder.mainLayout.setOnClickListener(view -> {
+            Intent intent = new Intent(context, BookActivity.class);
+            intent.putExtra("Book", book);
+            context.startActivity(intent);
         });
     }
 
-    @Override
-    public int getItemCount() {return 0;}
-    class SavedHolder extends RecyclerView.ViewHolder {
-        ImageView cover;
-        TextView title, author;
-        LinearLayout saved_book_layout;
-
-        public SavedHolder(@NonNull View itemView) {
-            super(itemView);
-            cover = itemView.findViewById(R.id.saved_book_cover);
-            title = itemView.findViewById(R.id.saved_book_title);
-            author = itemView.findViewById(R.id.saved_book_author);
-            saved_book_layout = itemView.findViewById(R.id.saved_book_layout);
-        }
+        @Override
+    public int getItemCount() {
+        return this.books.size();
     }
 }
