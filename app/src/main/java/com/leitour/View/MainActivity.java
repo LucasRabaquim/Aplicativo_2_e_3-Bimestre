@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Intent intent = new Intent(getApplicationContext(), SavedActivity.class);
+      //  startActivity(intent);
         btn2.setOnClickListener(view -> startActivity(intent));
     }
 
