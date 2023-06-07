@@ -12,13 +12,13 @@ public class Book implements Serializable {
     private String author;
     private int pages;
     private int edition;
-    private byte[] cover;
+    private byte cover;
     private String sinopse;
     private String language;
     private String year;
 
     public Book(){}
-    public Book(int _isbn,String _name,String _author,int _pages,int _edition,byte[] _cover,String _sinopse,String _language,String _year) {
+    public Book(int _isbn,String _name,String _author,int _pages,int _edition,byte _cover,String _sinopse,String _language,String _year) {
         this.isbn = _isbn;
         this.name = _name;
         this.author = _author;
@@ -46,13 +46,14 @@ public class Book implements Serializable {
     public void setEdition(int edition){this.edition = edition;}
     public int getEdition(){return this.edition;}
 
-    public void setCover(String cover){
-        Bitmap src= BitmapFactory.decodeFile(cover);
+    public void setCover(Byte cover){
+      /*  Bitmap src= BitmapFactory.decodeFile(cover);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         src.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        this.cover = baos.toByteArray();
+        this.cover = baos.toByteArray();*/
+        this.cover = cover;
     }
-    public byte[] getCover(){
+    public byte getCover(){
         return this.cover;
     }
 

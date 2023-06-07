@@ -51,16 +51,16 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         Book book = books.get(position);
         holder.title.setText(book.getName());
         holder.author.setText(book.getAuthor());
-        Bitmap bitmap = BitmapFactory.decodeByteArray(book.getCover() , 0, book.getCover() .length);
-        holder.cover.setImageBitmap(bitmap);
+       // Bitmap bitmap = BitmapFactory.decodeByteArray(book.getCover() , 0, book.getCover() .length);
+        //holder.cover.setImageBitmap(bitmap);
 
         Log.d("Titulo", (String) holder.title.getText());
         Log.d("author", (String) holder.author.getText());
-        holder.mainLayout.setOnClickListener(view -> {
+        /*holder.mainLayout.setOnClickListener(view -> {
             Intent intent = new Intent(context, BookActivity.class);
             intent.putExtra("Book", book);
             context.startActivity(intent);
-        });
+        });*/
     }
 
         @Override
