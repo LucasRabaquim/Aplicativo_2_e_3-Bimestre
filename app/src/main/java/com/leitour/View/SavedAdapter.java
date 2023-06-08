@@ -34,7 +34,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
             this.title= view.findViewById(R.id.saved_book_title);
             this.author= view.findViewById(R.id.saved_book_author);
             this.cover= view.findViewById(R.id.saved_book_cover);
-            mainLayout = view.findViewById(R.id.recycler_saved_book);
+            mainLayout = view.findViewById(R.id.saved_book_item);
         }
     }
 
@@ -56,11 +56,11 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
 
         Log.d("Titulo", (String) holder.title.getText());
         Log.d("author", (String) holder.author.getText());
-        /*holder.mainLayout.setOnClickListener(view -> {
+        holder.mainLayout.setOnClickListener(view -> {
             Intent intent = new Intent(context, BookActivity.class);
             intent.putExtra("Book", book);
             context.startActivity(intent);
-        });*/
+        });
     }
 
         @Override
