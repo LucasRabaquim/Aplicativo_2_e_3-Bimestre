@@ -34,7 +34,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
             this.title= view.findViewById(R.id.saved_book_title);
             this.author= view.findViewById(R.id.saved_book_author);
             this.cover= view.findViewById(R.id.saved_book_cover);
-            mainLayout = view.findViewById(R.id.saved_book_item);
+            mainLayout = view.findViewById(R.id.saved_book_layout);
         }
     }
 
