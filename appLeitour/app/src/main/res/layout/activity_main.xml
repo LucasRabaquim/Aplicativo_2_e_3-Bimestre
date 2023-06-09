@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".Controller.MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/heading"
+        android:text="Book Search"
+        android:textSize="26sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="30dp" />
+    
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_below="@id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/requestTag"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_background"
+            android:elevation="8dp"
+            android:hint="@string/hint_message"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:onClick="searchBook"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/search_repository"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/app_name"
+            android:onClick="searchBook"
+            android:padding="10dp"
+            android:src="@drawable/search_icon_foreground"
+            android:background="@drawable/button_background"
+            />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dataListView"
+        android:layout_below="@id/linear"
+        />
+
+    <TextView
+        android:id="@+id/errorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Nothing found"
+        android:textColor="@color/black"
+        android:visibility="invisible" />
+
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
+</RelativeLayout>
