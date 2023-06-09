@@ -1,30 +1,21 @@
 package com.example.appleitour.Database;
 
-
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import com.example.appleitour.Model.*;
 import com.example.appleitour.Model.Book;
-import com.example.appleitour.Database.TbBook;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
     private static final String DATABASE_NAME = "Leitour.db";
-    static TbBook TbBook = new TbBook();
-    static TbUser TbUser = new TbUser();
-    static TbAnnotation TbAnnotation = new TbAnnotation();
-
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
         this.context = context;
@@ -36,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(TbBook.QUERY);
         db.execSQL(TbUser.QUERY);
         db.execSQL(TbAnnotation.QUERY);
+        db.execSQL(TbUserBook.QUERY);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
@@ -87,6 +79,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         return books;
     }
+    @SuppressLint("Recycle")
+    public void checkBook(Book book){
+     /*   int userId = 0;
+        String query = "SELECT * FROM " + TbAnnotation.TABLE_NAME + " where " + TbAnnotation.COLUMN_BOOKID + " = " + book.getIsbn() + ";";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        if(db != null)
+            cursor = db.rawQuery(query, null);
+        if(cursor == null) {
+            insertBook(book);
+        }*/
+      /*  else {
+            //db.delete(TbAnnotation.TABLE_NAME, TbAnnotation.COLUMN_BOOKID + " = " + book.getIsbn() + " AND " + TbAnnotation.COLUMN_USERBookID + " = " + userId, null);
+        }*/
+    }
+
     public void insertUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -112,18 +120,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertAnnotation(Annotation annotation){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TbAnnotation.COLUMN_ID,annotation.getId());
-        contentValues.put(TbAnnotation.COLUMN_BOOKID, annotation.getBookId());
-        contentValues.put(TbAnnotation.COLUMN_USERID, annotation.getUserId());
+        contentValues.put(TbAnnotation.COLUMN_USERBOOKID, annotation.getUserBookId());
         contentValues.put(TbAnnotation.COLUMN_ANNOTATION, annotation.getAnnotation());
         contentValues.put(TbAnnotation.COLUMN_AUTHOR, annotation.getAuthor());
         contentValues.put(TbAnnotation.COLUMN_BOOK, annotation.getBook());
         db.insert(TbAnnotation.TABLE_NAME,null, contentValues);
     }
     public ArrayList<Annotation> selectAnnotations(int userId, int bookId){
-     /*   String query = "SELECT * FROM " + TbAnnotation.TABLE_NAME + " where " +
-                TbAnnotation.COLUMN_USERID + " = " + userId +
-                " and " + TbAnnotation.COLUMN_BOOKID + " = " + bookId;*/
         String query = "Select * from " + TbAnnotation.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
@@ -133,15 +136,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(cursor != null)
             while (cursor.moveToNext()) {
                 Annotation annotation = new Annotation();
-                annotation.setBookId(cursor.getInt(0));
-                Log.d("BookId:",String.valueOf(cursor.getInt(0)));
-                annotation.setUserId(cursor.getInt(1));
-                Log.d("UserId:",String.valueOf(cursor.getInt(1)));
-                annotation.setAnnotation(cursor.getString(2));
-                Log.d("Annotation:",cursor.getString(3));
-                annotation.setAuthor(cursor.getString(3));
-                Log.d("Break:","=======================");
-                annotation.setBook(cursor.getString(4));
+                annotation.setUserBookId(cursor.getInt(0));
+                annotation.setAnnotation(cursor.getString(1));
+                annotation.setAuthor(cursor.getString(2));
+                annotation.setBook(cursor.getString(3));
                 annotations.add(annotation);
             }
 

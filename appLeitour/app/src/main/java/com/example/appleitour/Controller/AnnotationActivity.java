@@ -31,7 +31,7 @@ public class AnnotationActivity extends AppCompatActivity {
         btnSaveUpdate.setOnClickListener(view -> {
             String text = String.valueOf(editText.getText());
             int bookId = book.getIsbn();
-            Annotation annotation = new Annotation(bookId,userId,text,"Espada de assis","Bom casmurro");
+            Annotation annotation = new Annotation(bookId,text,"Espada de assis","Bom casmurro");
             db.insertAnnotation(annotation);
             Intent intent = new Intent(getApplicationContext(),BookActivity.class);
             intent.putExtra("Book",book);
