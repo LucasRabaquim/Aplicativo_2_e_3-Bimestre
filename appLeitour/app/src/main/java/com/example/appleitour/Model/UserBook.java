@@ -9,4 +9,6 @@ public class UserBook {
         this.userId = userId;
     }
 
+    public int getUserBookId() { return UserBook; }
+    public void setUserBookId(int userBookId){this.UserBook = userBookId;}
 }

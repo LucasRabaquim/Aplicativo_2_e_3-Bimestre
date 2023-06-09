@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +15,15 @@
         android:theme="@style/Theme.AppLeitour"
         tools:targetApi="31">
         <activity
+            android:name=".Controller.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".livro"
             android:exported="false" />
         <activity
@@ -23,21 +32,21 @@
             android:label="@string/title_activity_main_quotes"
             android:theme="@style/Theme.AppLeitour.NoActionBar" />
         <activity
-            android:name=".cadastrar"
+            android:name=".Controller.CadastrarActivity"
             android:exported="true" />
         <activity
-            android:name=".login"
+            android:name=".Controller.LoginActivity"
             android:exported="true" />
-        <activity android:name=".Controller.BookActivity" android:exported="false"/>
-        <activity android:name=".Controller.SavedActivity" android:exported="false"/>
+        <activity
+            android:name=".Controller.BookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Controller.SavedActivity"
+            android:exported="false" />
         <activity
             android:name=".Controller.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

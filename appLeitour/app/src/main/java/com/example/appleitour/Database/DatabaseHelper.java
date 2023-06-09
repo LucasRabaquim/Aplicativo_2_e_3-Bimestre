@@ -6,37 +6,32 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.appleitour.Model.*;
 import com.example.appleitour.Model.Book;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
-    private Context context;
     private static final String DATABASE_NAME = "Leitour.db";
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
-        this.context = context;
     }
-
-    @SuppressLint("Recycle")
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(TbBook.QUERY);
-        db.execSQL(TbUser.QUERY);
-        db.execSQL(TbAnnotation.QUERY);
-        db.execSQL(TbUserBook.QUERY);
+        final String[] DB_QUERY = {TbBook.QUERY,TbUser.QUERY,TbAnnotation.QUERY,TbUserBook.QUERY};
+        for (String QUERY: DB_QUERY)
+            db.execSQL(QUERY);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        final String[] DB_TABLES = {TbBook.TABLE_NAME,TbUser.TABLE_NAME,TbAnnotation.TABLE_NAME};
+        final String[] DB_TABLES = {TbBook.TABLE_NAME,TbUser.TABLE_NAME,TbAnnotation.TABLE_NAME,TbUserBook.TABLE_NAME};
         for (String table: DB_TABLES)
             db.execSQL("DROP TABLE IF EXISTS " + table);
         onCreate(db);
     }
-
     public void insertBook(Book book){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -50,11 +45,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TbBook.COLUMN_SINOPSE, book.getSinopse());
         contentValues.put(TbBook.COLUMN_YEAR, book.getYear());
         contentValues.put(TbBook.COLUMN_LANGUAGE, book.getLanguage());
-        long result = db.insert(TbBook.TABLE_NAME,null, contentValues);
-        String alerta = (result == -1) ? "Erro na criação da review" : "Review criada com sucesso.";
-        Toast.makeText(context, alerta, Toast.LENGTH_SHORT).show();
+        db.insert(TbBook.TABLE_NAME,null, contentValues);
     }
-
     public ArrayList<Book> selectBooks(){
         String query = "SELECT * FROM " + TbBook.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -62,8 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(db != null)
             cursor = db.rawQuery(query, null);
         ArrayList<Book> books = new ArrayList<>();
-        if(cursor != null)
-           while (cursor.moveToNext()) {
+        if(cursor != null) {
+            while (cursor.moveToNext()) {
                 Book book = new Book();
                 book.setIsbn(cursor.getInt(0));
                 book.setName(cursor.getString(1));
@@ -77,28 +69,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 book.setLanguage(cursor.getString(9));
                 books.add(book);
             }
+            cursor.close();
+        }
         return books;
     }
-    @SuppressLint("Recycle")
-    public void checkBook(Book book){
-     /*   int userId = 0;
-        String query = "SELECT * FROM " + TbAnnotation.TABLE_NAME + " where " + TbAnnotation.COLUMN_BOOKID + " = " + book.getIsbn() + ";";
-        SQLiteDatabase db = this.getWritableDatabase();
+    public boolean checkBookIsStored(int bookId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "Select * from " + TbBook.TABLE_NAME + " where " +
+                TbBook.COLUMN_ID + " = " +bookId;
         Cursor cursor = null;
         if(db != null)
             cursor = db.rawQuery(query, null);
-        if(cursor == null) {
-            insertBook(book);
-        }*/
-      /*  else {
-            //db.delete(TbAnnotation.TABLE_NAME, TbAnnotation.COLUMN_BOOKID + " = " + book.getIsbn() + " AND " + TbAnnotation.COLUMN_USERBookID + " = " + userId, null);
-        }*/
+        return cursor.getCount() == 0;
+    }
+    public boolean checkBookIsSaved(int bookId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "Select * from " + TbUserBook.TABLE_NAME + " where " +
+                TbUserBook.COLUMN_BOOKID + " = " + bookId;
+        Cursor cursor = null;
+        if(db != null)
+            cursor = db.rawQuery(query, null);
+        return cursor.getCount() == 0;
     }
 
-    public void insertUser(User user){
+    public void deleteBook(int bookId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(TbBook.TABLE_NAME, TbBook.COLUMN_ID+"=?", new String[]{String.valueOf(bookId)});
+    }
+
+    public void insertUser(@NonNull User user){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TbUser.COLUMN_ID,user.getId());
         contentValues.put(TbUser.COLUMN_NAME, user.getName());
         contentValues.put(TbUser.COLUMN_EMAIL, user.getEmail());
         contentValues.put(TbUser.COLUMN_PASSWORD, user.getPassword());
@@ -106,16 +107,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TbUser.COLUMN_COLOR, user.getColor());
         db.insert(TbUser.TABLE_NAME,null, contentValues);
     }
-    public int selectUserId(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT " + TbUser.COLUMN_ID + " from " + TbUser.TABLE_NAME + " order by " +
-                TbUser.COLUMN_ID + " desc limit 1";
-        Cursor cursor = db.rawQuery(query, null);
-        int id = 0;
-            while (cursor.moveToNext())
-                id = cursor.getInt(0);
-        return id;
+
+    public void insertUserBook(int bookId, int userId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TbUserBook.COLUMN_BOOKID, bookId);
+        contentValues.put(TbUserBook.COLUMN_USERID, userId);
+        db.insert(TbUserBook.TABLE_NAME,null, contentValues);
     }
+    @SuppressLint("Recycle")
+    public boolean checkUserBook(int bookId, int userId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "Select * from " + TbUserBook.TABLE_NAME + " where " +
+                TbUserBook.COLUMN_BOOKID + " =? " + " AND " + TbUserBook.COLUMN_USERID + " =? ";
+        Cursor cursor = null;
+        if(db != null)
+            cursor = db.rawQuery(query, new String[]{String.valueOf(bookId),String.valueOf(userId)});
+        return cursor.getCount() == 0;
+    }
+
+    public void deleteUserBook(int bookId, int userId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TbUserBook.TABLE_NAME, "_BookId=? AND _UserId=?", new String[]{String.valueOf(bookId), String.valueOf(userId)});
+    }
+
 
     public void insertAnnotation(Annotation annotation){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -126,14 +141,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TbAnnotation.COLUMN_BOOK, annotation.getBook());
         db.insert(TbAnnotation.TABLE_NAME,null, contentValues);
     }
-    public ArrayList<Annotation> selectAnnotations(int userId, int bookId){
-        String query = "Select * from " + TbAnnotation.TABLE_NAME;
+
+    public ArrayList<Annotation> selectAnnotations(UserBook userBook){
+        String query = "Select * from " + TbAnnotation.TABLE_NAME + " where " + TbAnnotation.COLUMN_USERBOOKID + "=?";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         if(db != null)
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userBook.getUserBookId())});
         ArrayList<Annotation> annotations = new ArrayList<>();
-        if(cursor != null)
+        if(cursor != null) {
             while (cursor.moveToNext()) {
                 Annotation annotation = new Annotation();
                 annotation.setUserBookId(cursor.getInt(0));
@@ -142,7 +158,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 annotation.setBook(cursor.getString(3));
                 annotations.add(annotation);
             }
-
+        cursor.close();
+        }
         return annotations;
     }
 }
