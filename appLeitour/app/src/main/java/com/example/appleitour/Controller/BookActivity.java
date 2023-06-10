@@ -45,8 +45,6 @@ public class BookActivity extends AppCompatActivity {
         sinopse.setText(book.getSinopse());
 
         DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
-
-
         RecyclerView recyclerView = findViewById(R.id.recycler_annotation);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
         UserBook userBook = new UserBook(book.getKey(), 1);
@@ -54,7 +52,6 @@ public class BookActivity extends AppCompatActivity {
         AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation,book);
         recyclerView.setAdapter(annotationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
 
         btnCreate.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
@@ -70,6 +67,9 @@ public class BookActivity extends AppCompatActivity {
                 db.insertBook(book);
             }else{
                 db.deleteBook(book.getKey());
+               /* Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
+                finish();
+                startActivity(intent);*/
             }
             if(db.checkUserBook(book.getKey(), userId)){
                 db.insertUserBook(book.getKey(),userId);

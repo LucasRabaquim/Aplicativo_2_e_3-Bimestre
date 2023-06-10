@@ -145,8 +145,6 @@ public class NetworkUtils {
                     bookLang = "-";
                 }
 
-
-
                 JSONArray publishDateArray = currentBook.getJSONArray("publish_year");
                 String bookDate = "";
                 if (publishDateArray.length() > 0) {

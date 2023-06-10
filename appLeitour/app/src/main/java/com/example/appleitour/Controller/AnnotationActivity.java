@@ -28,8 +28,7 @@ public class AnnotationActivity extends AppCompatActivity {
         boolean updateMode = getIntent().getBooleanExtra("AnnotationUpdate",false);
         int userId = getIntent().getIntExtra("userId",0);
         EditText editText = findViewById(R.id.edit_annotation);
-        if(annotation != null)
-            editText.setText(annotation.getAnnotation());
+
         btnSaveUpdate = findViewById(R.id.btn_annotation_save);
         btnCancel = findViewById(R.id.btn_annotation_cancel);
         if(annotation != null){
@@ -42,13 +41,17 @@ public class AnnotationActivity extends AppCompatActivity {
             String text = editText.getText().toString().trim();
             String bookId = book.getKey();
             int userBook = db.selectUserBookId(bookId,userId);
-            Annotation userAnnotation = new Annotation(userBook,text,book.getAuthor(),book.getName());
+            Annotation userAnnotation;
             db.getWritableDatabase();
             Log.d("Atualizar?",String.valueOf(updateMode));
-            if(updateMode)
+            if(updateMode){
+                userAnnotation = new Annotation(annotation.getId(),userBook,text,book.getAuthor(),book.getName());
                 db.updateAnnotation(userAnnotation);
-            else
+            }
+            else{
+                userAnnotation = new Annotation(userBook,text,book.getAuthor(),book.getName());
                 db.insertAnnotation(userAnnotation);
+            }
             Intent intent = new Intent(getApplicationContext(),BookActivity.class);
             intent.putExtra("Book",book);
             startActivity(intent);
