@@ -17,6 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
         /*
         SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
         int Theme = settings.getInt("Theme", 1);

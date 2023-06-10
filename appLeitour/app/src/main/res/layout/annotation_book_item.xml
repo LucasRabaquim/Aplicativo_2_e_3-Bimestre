@@ -64,19 +64,21 @@
                 android:layout_margin="8dp"
                 android:orientation="horizontal"
                 android:gravity="end">
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_annotation_edit"
+                    style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="@string/placeholder"
-                    style="?attr/borderlessButtonStyle"/>
+                    android:text="X alterar" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_annotation_discard"
+                    style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/placeholder"
-                    style="?attr/borderlessButtonStyle"/>
+                    android:text="X apagar" />
             </LinearLayout>
 
         </LinearLayout>

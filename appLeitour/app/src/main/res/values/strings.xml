@@ -106,4 +106,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="livros_salvos">Livros salvos</string>
+    <string name="pesquisar_livros">Pesquisar\n</string>
 </resources>
