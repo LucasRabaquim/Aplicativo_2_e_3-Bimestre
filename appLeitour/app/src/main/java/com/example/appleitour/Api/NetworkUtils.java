@@ -21,17 +21,17 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
     private static final String API_URL = "https://openlibrary.org/search.json";
-    private static final String QUERY_PARAM = "q";
+    private static final String QUERY_PARAM = "title";
     private static final String MODE = "mode";
     private static final String LIMIT = "limit";
     private static final String OFFSET = "offset";
 
     private static URL buildUrl(String queryString) {
-          Uri buildURI = Uri.parse(API_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, queryString)
-                    .appendQueryParameter(LIMIT, "10")
-                    .build();
-          URL url = null;
+        Uri buildURI = Uri.parse(API_URL).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, queryString)
+                .appendQueryParameter(LIMIT, "10")
+                .build();
+        URL url = null;
         try {
             url = new URL(buildURI.toString());
         } catch (MalformedURLException e) {
@@ -63,6 +63,7 @@ public class NetworkUtils {
 
     private static List<Book> jsonFormatter(String jsonResponse) {
         List<Book> bookList = new ArrayList<>();
+
         try {
             JSONObject json = new JSONObject(jsonResponse);
 
@@ -97,25 +98,22 @@ public class NetworkUtils {
 
                 int bookPages = 0;
                 try {
-                JSONArray pagesArray = currentBook.getJSONArray("number_of_pages_median");
-                if (pagesArray.length() > 0)
-                        bookPages = Integer.parseInt(pagesArray.getString(0)); // Pegar apenas o primeiro elemento
+                    JSONArray pagesArray = currentBook.getJSONArray("number_of_pages_median");
+                    if (pagesArray.length() > 0)
+                        bookPages = Integer.parseInt(pagesArray.getString(0));
                 }catch (Exception e){
                     bookPages = 0;
                 }
-
 
                 int bookEdition = 0;
                 try {
                     JSONArray editionArray = currentBook.getJSONArray("edition_count");
                     if (editionArray.length() > 0)
-                        bookEdition = Integer.parseInt(editionArray.getString(0)); // Pegar apenas o primeiro elemento
-                    }catch (Exception e){
+                        bookEdition = Integer.parseInt(editionArray.getString(0));
+                }catch (Exception e){
                     bookEdition = 0;
                 }
 
-
-                // Como "publisher" é um array, é necessário tratá-lo como tal
                 JSONArray publisherArray = currentBook.getJSONArray("publisher");
                 String bookEditora = "";
                 if (publisherArray.length() > 0) {
@@ -130,17 +128,29 @@ public class NetworkUtils {
                     bookSinopse = "-";
                 }
                 JSONArray languageArray = currentBook.optJSONArray("language");
-                String bookLang = "";
+                List<String> bookLangList = new ArrayList<>();
                 if (languageArray != null && languageArray.length() > 0) {
-                    bookLang = languageArray.getString(0);
+                    for (int j = 0; j < languageArray.length(); j++) {
+                        String language = languageArray.getString(j);
+                        bookLangList.add(language);
+                    }
+                } else {
+                    bookLangList.add("-");
+                }
+
+                String bookLang;
+                if (!bookLangList.isEmpty()) {
+                    bookLang = String.join(", ", bookLangList);
                 } else {
                     bookLang = "-";
                 }
 
+
+
                 JSONArray publishDateArray = currentBook.getJSONArray("publish_year");
                 String bookDate = "";
                 if (publishDateArray.length() > 0) {
-                    bookDate = publishDateArray.getString(0); // Pegar apenas o primeiro elemento
+                    bookDate = publishDateArray.getString(0);
                 }
 
                 Log.v("Data", "Number" + (i + 1));
