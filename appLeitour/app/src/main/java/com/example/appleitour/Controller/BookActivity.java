@@ -46,22 +46,29 @@ public class BookActivity extends AppCompatActivity {
             Log.d("Livros Stored",String.valueOf(db.checkBookIsStored(book.getIsbn())));
             Log.d("Livros Salvo",String.valueOf(db.checkBookIsSaved(book.getIsbn())));
             Log.d("Livros USERBOOK",String.valueOf(db.checkUserBook(userId,book.getIsbn())));
+
+
+
+            db.insertBook(book);
+            db.insertUserBook(userId, book.getIsbn());
+
+
             if(db.checkBookIsStored(book.getIsbn())) {
-                db.insertBook(book);
+
                 Log.d("BANCO","Livro inserido");
             }
             if(db.checkUserBook(userId,book.getIsbn())) {
-                db.insertUserBook(userId, book.getIsbn());
+
                 Log.d("BANCO","Relação criada");
             }
-            else {
+      /*      else {
                 db.deleteUserBook(userId, book.getIsbn());
                 Log.d("BANCO","Relação deletada");
                 if(!db.checkBookIsSaved(book.getIsbn())) {
                     db.deleteBook(book.getIsbn());
                     Log.d("BANCO", "Livro deletado");
                 }
-            }
+            }*/
         });
     }
 }

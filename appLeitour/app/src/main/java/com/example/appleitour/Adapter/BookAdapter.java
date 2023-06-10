@@ -21,9 +21,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
-        if (view == null) {
+        if (view == null)
             view = LayoutInflater.from(getContext()).inflate(R.layout.respository_item, parent, false);
-        }
+
 
         TextView bookName = view.findViewById(R.id.bookName);
         TextView bookAuthor = view.findViewById(R.id.bookAuthor);
@@ -32,7 +32,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         TextView bookDate = view.findViewById(R.id.bookDate);
 
         Book currentBook = getItem(position);
-        bookName.setText(currentBook.getName());
+        bookName.setText(String.valueOf(currentBook.getKey()));
         bookAuthor.setText(currentBook.getAuthor());
         bookEditora.setText(currentBook.getPublisher());
         bookLang.setText(currentBook.getLanguage());

@@ -35,7 +35,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertBook(Book book){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TbBook.COLUMN_ID, book.getIsbn());
+        contentValues.put(TbBook.COLUMN_ID, book.getKey());
+        contentValues.put(TbBook.COLUMN_ISBN, book.getIsbn());
         contentValues.put(TbBook.COLUMN_NAME, book.getName());
         contentValues.put(TbBook.COLUMN_AUTHOR, book.getAuthor());
         contentValues.put(TbBook.COLUMN_PUBLISHER, book.getPublisher());
@@ -57,16 +58,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(cursor != null) {
             while (cursor.moveToNext()) {
                 Book book = new Book();
-                book.setIsbn(cursor.getInt(0));
-                book.setName(cursor.getString(1));
-                book.setAuthor(cursor.getString(2));
-                book.setPublisher(cursor.getString(3));
-                book.setPages(cursor.getInt(4));
-                book.setEdition(cursor.getInt(5));
-                book.setCover((byte) cursor.getInt(6));
-                book.setSinopse(cursor.getString(7));
-                book.setYear(cursor.getString(8));
-                book.setLanguage(cursor.getString(9));
+                book.setKey(cursor.getString(0));
+                book.setIsbn(cursor.getInt(1));
+                book.setName(cursor.getString(2));
+                book.setAuthor(cursor.getString(3));
+                book.setPublisher(cursor.getString(4));
+                book.setPages(cursor.getInt(5));
+                book.setEdition(cursor.getInt(6));
+                book.setCover((byte) cursor.getInt(7));
+                book.setSinopse(cursor.getString(8));
+                book.setYear(cursor.getString(9));
+                book.setLanguage(cursor.getString(10));
                 books.add(book);
             }
             cursor.close();

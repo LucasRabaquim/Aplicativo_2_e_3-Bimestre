@@ -80,6 +80,8 @@ public class NetworkUtils {
                 JSONObject currentBook = docs.getJSONObject(i);
                 String bookName = currentBook.getString("title");
 
+                String bookKey = currentBook.getString("key");
+
                 JSONArray isbnArray = currentBook.getJSONArray("isbn");
                 int bookIsbn = 0;
                 if (isbnArray.length() > 0) {
@@ -144,7 +146,7 @@ public class NetworkUtils {
                 Log.v("Data", "Number" + (i + 1));
 
                 Byte bookCover = (byte) 123;
-                Book Book = new Book(bookIsbn, bookName, bookAuthor, bookEditora, bookPages, bookEdition, bookCover, bookSinopse, bookLang, bookDate);
+                Book Book = new Book(bookKey,bookIsbn, bookName, bookAuthor, bookEditora, bookPages, bookEdition, bookCover, bookSinopse, bookLang, bookDate);
                 bookList.add(Book);
             }
         } catch (JSONException ex) {

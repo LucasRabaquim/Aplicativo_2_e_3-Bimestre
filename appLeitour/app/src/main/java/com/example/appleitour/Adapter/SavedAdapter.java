@@ -26,7 +26,6 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         this.books = _books;
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView cover;
         TextView title, author;
@@ -36,7 +35,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
             this.title= view.findViewById(R.id.saved_book_title);
             this.author= view.findViewById(R.id.saved_book_author);
             this.cover= view.findViewById(R.id.saved_book_cover);
-            mainLayout = view.findViewById(R.id.recycler_saved_book);
+            mainLayout = view.findViewById(R.id.saved_book_layout);
         }
     }
 

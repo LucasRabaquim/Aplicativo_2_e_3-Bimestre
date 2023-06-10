@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import com.example.appleitour.Adapter.BookAdapter;
 import com.example.appleitour.Api.NetworkUtils;
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.util.List;
@@ -67,7 +69,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         LoaderManager.getInstance(this).initLoader(BOOK_SEARCH_LOADER, null, this);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            Intent intent;
+            if (R.id.nav_saved == item.getItemId())
+                intent = new Intent(getApplicationContext(), SavedActivity.class);
+            else if (R.id.nav_search == item.getItemId())
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+            else
+                intent = new Intent(getApplicationContext(), CadastrarActivity.class);
 
+            startActivity(intent);
+            return false;
+        });
     }
 
     @Override
@@ -76,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         outState.putString(BOOK_QUERY_TAG, requestTag.getText().toString().trim());
     }
 
+    @NonNull
     @SuppressLint("StaticFieldLeak")
     public Loader<List<Book>> onCreateLoader(int id, final Bundle args) {
         return new AsyncTaskLoader<List<Book>>(this) {
@@ -116,23 +131,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         };
     }
 
-
     @Override
-    public void onLoadFinished(Loader<List<Book>> loader, List<Book> data) {
+    public void onLoadFinished(@NonNull Loader<List<Book>> loader, List<Book> data) {
         loadingBar.setVisibility(View.INVISIBLE);
 
-        if(null == data) {
+        if(null == data)
             showErrorMessage();
-        } else {
+        else {
             adapter.clear();
             adapter.addAll(data);
             showJsonDataView();
         }
     }
 
-    public void onLoaderReset(Loader<List<Book>> loader) {
-
-    }
+    public void onLoaderReset(@NonNull Loader<List<Book>> loader) {}
 
     private void showJsonDataView() {
         errorMessage.setVisibility(View.INVISIBLE);
