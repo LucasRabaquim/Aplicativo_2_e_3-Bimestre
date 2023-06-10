@@ -21,7 +21,9 @@ import android.widget.TextView;
 
 import com.example.appleitour.Adapter.BookAdapter;
 import com.example.appleitour.Api.NetworkUtils;
+import com.example.appleitour.Database.DatabaseHelper;
 import com.example.appleitour.Model.Book;
+import com.example.appleitour.Model.User;
 import com.example.appleitour.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -53,6 +55,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         adapter = new BookAdapter(getApplicationContext());
         dataListView.setAdapter((adapter));
+
+        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        User user = new User("Lucas","123","email",(byte)123,123);
+        dbHelper.insertUser(user);
+
 
         dataListView.setOnItemClickListener((adapterView, view, i, l) -> {
             Book book = (Book) adapterView.getItemAtPosition(i);
@@ -155,17 +162,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         dataListView.setVisibility(View.INVISIBLE);
         errorMessage.setVisibility(View.VISIBLE);
     }
-
     public void searchBook(View view) {
         makeBookSearchQuery();
     }
-
     private void makeBookSearchQuery() {
         String bookQuery = requestTag.getText().toString();
-
         Bundle queryBundle = new Bundle();
         queryBundle.putString(BOOK_QUERY_TAG, bookQuery);
-
         LoaderManager loaderManager = LoaderManager.getInstance(this);
         Loader<String> bookSearchLoader = loaderManager.getLoader(BOOK_SEARCH_LOADER);
         if (bookSearchLoader == null) {

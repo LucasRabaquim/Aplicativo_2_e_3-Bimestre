@@ -10,6 +10,13 @@ public class Annotation implements Serializable {
     private String book;
 
     public Annotation(){}
+    public Annotation(int _id,int _userBook, String _annotation, String _author, String _book){
+        this.id = _id;
+        this.userBook = _userBook;
+        this.annotation = _annotation;
+        this.author = _author;
+        this.book = _book;
+    }
     public Annotation(int _userBook, String _annotation, String _author, String _book){
         this.userBook = _userBook;
         this.annotation = _annotation;

@@ -45,39 +45,31 @@ public class BookActivity extends AppCompatActivity {
         sinopse.setText(book.getSinopse());
 
         DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
-        User user = new User("Lucas","123","email",(byte)123,123);
-        dbHelper.insertUser(user);
-
-
         RecyclerView recyclerView = findViewById(R.id.recycler_annotation);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
         UserBook userBook = new UserBook(book.getKey(), 1);
         ArrayList<Annotation> annotation = databaseHelper.selectAnnotations(userBook);
-        AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation);
+        AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation,book);
         recyclerView.setAdapter(annotationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
 
         btnCreate.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
             intent.putExtra("Book",book);
             startActivity(intent);
+            finish();
         });
 
         btnSave.setOnClickListener(view -> {
             SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
             int userId = 1;//settings.getInt("userId", 1);
-            Log.d("Livros",String.valueOf(db.selectBooks()));
-            Log.d("Livros Stored",String.valueOf(db.checkBookIsStored(book.getKey())));
-            Log.d("Livros Salvo",String.valueOf(db.checkBookIsSaved(book.getKey())));
-            Log.d("Livros USERBOOK",String.valueOf(db.checkUserBook(book.getKey(),userId)));
-
             if(db.checkBookIsStored(book.getKey())) {
                 db.insertBook(book);
-                Log.d("BANCO","Livro inserido");
             }else{
                 db.deleteBook(book.getKey());
-                Log.d("BANCO", "Livro deletado");
+               /* Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
+                finish();
+                startActivity(intent);*/
             }
             if(db.checkUserBook(book.getKey(), userId)){
                 db.insertUserBook(book.getKey(),userId);

@@ -7,11 +7,11 @@
         <item
             android:id="@+id/nav_saved"
             android:icon="@drawable/ic_menu_camera"
-            android:title="" />
+            android:title="@string/livros_salvos" />
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="" />
+            android:title="@string/pesquisar_livros" />
         <item
             android:id="@+id/nav_configuration"
             android:icon="@drawable/ic_menu_slideshow"

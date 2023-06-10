@@ -27,11 +27,11 @@ public class NetworkUtils {
     private static final String OFFSET = "offset";
 
     private static URL buildUrl(String queryString) {
-          Uri buildURI = Uri.parse(API_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, queryString)
-                    .appendQueryParameter(LIMIT, "10")
-                    .build();
-          URL url = null;
+        Uri buildURI = Uri.parse(API_URL).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, queryString)
+                .appendQueryParameter(LIMIT, "10")
+                .build();
+        URL url = null;
         try {
             url = new URL(buildURI.toString());
         } catch (MalformedURLException e) {
@@ -98,8 +98,13 @@ public class NetworkUtils {
 
                 int bookPages = 0;
                 try {
+<<<<<<< HEAD
                 JSONArray pagesArray = currentBook.getJSONArray("number_of_pages_median");
                 if (pagesArray.length() > 0)
+=======
+                    JSONArray pagesArray = currentBook.getJSONArray("number_of_pages_median");
+                    if (pagesArray.length() > 0)
+>>>>>>> cea4cf58b26e6e79022913554dd82be65adaa64a
                         bookPages = Integer.parseInt(pagesArray.getString(0));
                 }catch (Exception e){
                     bookPages = 0;
@@ -110,7 +115,11 @@ public class NetworkUtils {
                     JSONArray editionArray = currentBook.getJSONArray("edition_count");
                     if (editionArray.length() > 0)
                         bookEdition = Integer.parseInt(editionArray.getString(0));
+<<<<<<< HEAD
                     }catch (Exception e){
+=======
+                }catch (Exception e){
+>>>>>>> cea4cf58b26e6e79022913554dd82be65adaa64a
                     bookEdition = 0;
                 }
 
