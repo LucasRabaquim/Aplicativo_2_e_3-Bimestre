@@ -98,13 +98,8 @@ public class NetworkUtils {
 
                 int bookPages = 0;
                 try {
-<<<<<<< HEAD
-                JSONArray pagesArray = currentBook.getJSONArray("number_of_pages_median");
-                if (pagesArray.length() > 0)
-=======
                     JSONArray pagesArray = currentBook.getJSONArray("number_of_pages_median");
                     if (pagesArray.length() > 0)
->>>>>>> cea4cf58b26e6e79022913554dd82be65adaa64a
                         bookPages = Integer.parseInt(pagesArray.getString(0));
                 }catch (Exception e){
                     bookPages = 0;
@@ -115,11 +110,7 @@ public class NetworkUtils {
                     JSONArray editionArray = currentBook.getJSONArray("edition_count");
                     if (editionArray.length() > 0)
                         bookEdition = Integer.parseInt(editionArray.getString(0));
-<<<<<<< HEAD
-                    }catch (Exception e){
-=======
                 }catch (Exception e){
->>>>>>> cea4cf58b26e6e79022913554dd82be65adaa64a
                     bookEdition = 0;
                 }
 
@@ -153,8 +144,6 @@ public class NetworkUtils {
                 } else {
                     bookLang = "-";
                 }
-
-
 
                 JSONArray publishDateArray = currentBook.getJSONArray("publish_year");
                 String bookDate = "";
