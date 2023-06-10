@@ -32,7 +32,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         TextView bookDate = view.findViewById(R.id.bookDate);
 
         Book currentBook = getItem(position);
-        bookName.setText(String.valueOf(currentBook.getKey()));
+        bookName.setText(String.valueOf(currentBook.getName()));
         bookAuthor.setText(currentBook.getAuthor());
         bookEditora.setText(currentBook.getPublisher());
         bookLang.setText(currentBook.getLanguage());

@@ -21,7 +21,7 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
     private static final String API_URL = "https://openlibrary.org/search.json";
-    private static final String QUERY_PARAM = "q";
+    private static final String QUERY_PARAM = "title";
     private static final String MODE = "mode";
     private static final String LIMIT = "limit";
     private static final String OFFSET = "offset";
@@ -63,6 +63,7 @@ public class NetworkUtils {
 
     private static List<Book> jsonFormatter(String jsonResponse) {
         List<Book> bookList = new ArrayList<>();
+
         try {
             JSONObject json = new JSONObject(jsonResponse);
 
@@ -130,12 +131,24 @@ public class NetworkUtils {
                     bookSinopse = "-";
                 }
                 JSONArray languageArray = currentBook.optJSONArray("language");
-                String bookLang = "";
+                List<String> bookLangList = new ArrayList<>(); // Lista para armazenar todos os idiomas
                 if (languageArray != null && languageArray.length() > 0) {
-                    bookLang = languageArray.getString(0);
+                    for (int j = 0; j < languageArray.length(); j++) {
+                        String language = languageArray.getString(j);
+                        bookLangList.add(language); // Adicionar idioma à lista
+                    }
                 } else {
-                    bookLang = "-";
+                    bookLangList.add("-"); // Adicionar valor padrão à lista
                 }
+
+                String bookLang;
+                if (!bookLangList.isEmpty()) {
+                    bookLang = String.join(", ", bookLangList); // Converter a lista de idiomas em uma única string separada por vírgulas
+                } else {
+                    bookLang = "-"; // Valor padrão se a lista estiver vazia
+                }
+
+
 
                 JSONArray publishDateArray = currentBook.getJSONArray("publish_year");
                 String bookDate = "";

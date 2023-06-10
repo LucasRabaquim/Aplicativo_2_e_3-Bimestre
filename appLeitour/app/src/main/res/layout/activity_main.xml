@@ -79,6 +79,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="Nothing found"
+        android:layout_gravity="center"
         android:textColor="@color/black"
         android:visibility="invisible" />
 
