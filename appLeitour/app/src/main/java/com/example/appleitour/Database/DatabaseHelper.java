@@ -75,28 +75,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return books;
     }
-    public boolean checkBookIsStored(int bookId){
+    public boolean checkBookIsStored(String bookId){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "Select * from " + TbBook.TABLE_NAME + " where " +
-                TbBook.COLUMN_ID + " = " +bookId;
+                TbBook.COLUMN_ID + " =?";
         Cursor cursor = null;
         if(db != null)
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(query, new String[]{bookId});
         return cursor.getCount() == 0;
     }
-    public boolean checkBookIsSaved(int bookId){
+    public boolean checkBookIsSaved(String bookId){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "Select * from " + TbUserBook.TABLE_NAME + " where " +
-                TbUserBook.COLUMN_BOOKID + " = " + bookId;
+                TbUserBook.COLUMN_BOOKID + " =?";
         Cursor cursor = null;
         if(db != null)
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(query, new String[]{bookId});
         return cursor.getCount() == 0;
     }
 
-    public void deleteBook(int bookId){
+    public void deleteBook(String bookId){
         SQLiteDatabase db = this.getReadableDatabase();
-        db.delete(TbBook.TABLE_NAME, TbBook.COLUMN_ID+"=?", new String[]{String.valueOf(bookId)});
+        db.delete(TbBook.TABLE_NAME, TbBook.COLUMN_ID+"=?", new String[]{bookId});
     }
 
     public void insertUser(@NonNull User user){
@@ -110,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TbUser.TABLE_NAME,null, contentValues);
     }
 
-    public void insertUserBook(int bookId, int userId){
+    public void insertUserBook(String bookId, int userId){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TbUserBook.COLUMN_BOOKID, bookId);
@@ -118,21 +118,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TbUserBook.TABLE_NAME,null, contentValues);
     }
     @SuppressLint("Recycle")
-    public boolean checkUserBook(int bookId, int userId){
+    public boolean checkUserBook(String bookId, int userId){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "Select * from " + TbUserBook.TABLE_NAME + " where " +
                 TbUserBook.COLUMN_BOOKID + " =? " + " AND " + TbUserBook.COLUMN_USERID + " =? ";
         Cursor cursor = null;
         if(db != null)
-            cursor = db.rawQuery(query, new String[]{String.valueOf(bookId),String.valueOf(userId)});
+            cursor = db.rawQuery(query, new String[]{bookId,String.valueOf(userId)});
+        Log.d("Tem USER BOOK:",String.valueOf(cursor.getCount() == 1));
         return cursor.getCount() == 0;
     }
 
-    public void deleteUserBook(int bookId, int userId){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TbUserBook.TABLE_NAME, "_BookId=? AND _UserId=?", new String[]{String.valueOf(bookId), String.valueOf(userId)});
+    public int selectUserBookId(String bookId, int userId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "Select " + TbUserBook.COLUMN_ID + " from " + TbUserBook.TABLE_NAME + " where " +
+                TbUserBook.COLUMN_BOOKID + " =? " + " AND " + TbUserBook.COLUMN_USERID + " =? ";
+        Cursor cursor = null;
+        if(db != null)
+            cursor = db.rawQuery(query, new String[]{bookId,String.valueOf(userId)});
+        Log.d("Tem USER BOOK:",String.valueOf(cursor.getCount() == 1));
+        return cursor.getColumnIndex(TbUserBook.COLUMN_ID);
     }
 
+    public void deleteUserBook(String bookId, int userId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TbUserBook.TABLE_NAME, "_BookId=? AND _UserId=?", new String[]{bookId, String.valueOf(userId)});
+    }
 
     public void insertAnnotation(Annotation annotation){
         SQLiteDatabase db = this.getWritableDatabase();

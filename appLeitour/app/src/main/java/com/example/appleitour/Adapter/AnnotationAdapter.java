@@ -1,4 +1,4 @@
-package com.example.appleitour.Controller;
+package com.example.appleitour.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appleitour.Controller.AnnotationActivity;
 import com.example.appleitour.Model.Annotation;
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
@@ -42,14 +43,14 @@ public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.Vi
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(
+    public AnnotationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new AnnotationAdapter.ViewHolder(
                 LayoutInflater.from(context).inflate(R.layout.annotation_book_item, parent, false)
         );
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AnnotationAdapter.ViewHolder holder, int position) {
         Annotation annotation = annotations.get(position);
         holder.annotation.setText(annotation.getAnnotation());
         holder.author.setText(annotation.getAuthor());

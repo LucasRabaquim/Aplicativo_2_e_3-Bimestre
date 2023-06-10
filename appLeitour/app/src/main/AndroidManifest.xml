@@ -24,15 +24,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".livro"
-            android:exported="false" />
-        <activity
             android:name=".mainQuotes"
             android:exported="false"
             android:label="@string/title_activity_main_quotes"
             android:theme="@style/Theme.AppLeitour.NoActionBar" />
         <activity
             android:name=".Controller.CadastrarActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Controller.AnnotationActivity"
             android:exported="true" />
         <activity
             android:name=".Controller.LoginActivity"

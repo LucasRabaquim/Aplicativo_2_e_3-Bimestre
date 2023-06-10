@@ -12,6 +12,6 @@ public class TbUserBook {
         //       "    FOREIGN KEY ("+ COLUMN_BOOKID +") REFERENCES " + TbBook.TABLE_NAME +" ("+ TbBook.COLUMN_ID +")," +
             COLUMN_USERID + " INTEGER NOT NULL," +
       //         "    FOREIGN KEY ("+ COLUMN_USERID +") REFERENCES " + TbUser.TABLE_NAME +" ("+ TbUser.COLUMN_ID +")," +
-            COLUMN_BOOKID + " INTEGER NOT NULL);";
+            COLUMN_BOOKID + " TEXT NOT NULL);";
 
 }

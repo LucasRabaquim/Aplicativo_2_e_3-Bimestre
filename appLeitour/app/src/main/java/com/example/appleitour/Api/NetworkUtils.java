@@ -80,7 +80,7 @@ public class NetworkUtils {
                 JSONObject currentBook = docs.getJSONObject(i);
                 String bookName = currentBook.getString("title");
 
-                String bookKey = currentBook.getString("key");
+                String bookKey = currentBook.getString("key").replace("/works/","");
 
                 JSONArray isbnArray = currentBook.getJSONArray("isbn");
                 int bookIsbn = 0;
