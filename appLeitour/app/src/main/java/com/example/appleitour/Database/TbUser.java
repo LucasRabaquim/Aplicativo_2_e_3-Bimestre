@@ -13,7 +13,7 @@ public class TbUser {
     public static final String  QUERY = "CREATE TABLE " + TABLE_NAME + "(" +
             "   " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "   " + COLUMN_NAME + " TEXT, " +
-            "   " + COLUMN_EMAIL + " TEXT, " +
+            "   " + COLUMN_EMAIL + " TEXT UNIQUE, " +
             "   " + COLUMN_PASSWORD + " TEXT, " +
             "   " + COLUMN_PHOTO + " BLOB, " +
             "   " + COLUMN_COLOR + " INTEGER);" ;

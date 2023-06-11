@@ -67,7 +67,7 @@ public class NetworkUtils {
         try {
             JSONObject json = new JSONObject(jsonResponse);
 
-            Log.d("JSON", jsonResponse);
+            //Log.d("JSON", jsonResponse);
 
             JSONArray docs = json.getJSONArray("docs");
 
@@ -158,7 +158,7 @@ public class NetworkUtils {
                 bookList.add(Book);
             }
         } catch (JSONException ex) {
-            Log.v("Network", "Cannot read JSON", ex);
+        //    Log.v("Network", "Cannot read JSON", ex);
         }
         return bookList;
     }

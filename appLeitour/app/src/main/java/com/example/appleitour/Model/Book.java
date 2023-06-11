@@ -2,6 +2,7 @@ package com.example.appleitour.Model;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
@@ -70,6 +71,11 @@ public class Book implements Serializable {
 
     public void setYear(String year){this.year = year;}
     public String getYear(){return this.year;}
+
+    public void debug(){
+        Log.d("Key",this.key);
+        Log.d("Name",this.name);
+    }
 
 
 

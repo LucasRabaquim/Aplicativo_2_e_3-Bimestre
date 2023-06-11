@@ -68,6 +68,8 @@ public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.Vi
         holder.btnUpdate.setOnClickListener(view -> {
             Intent intent = new Intent(context, AnnotationActivity.class);
             intent.putExtra("Book",book);
+            intent.putExtra("UserBook",annotation.getUserBookId());
+            Log.d("Id da bagaça",String.valueOf(annotation.getUserBookId()));
             intent.putExtra("Annotation", annotation);
             intent.putExtra("AnnotationUpdate", true);
             context.startActivity(intent);
@@ -79,7 +81,6 @@ public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.Vi
             Intent intent = new Intent(context.getApplicationContext(), BookActivity.class);
             intent.putExtra("Book",book);
             context.startActivity(intent);
-
         });
     }
 

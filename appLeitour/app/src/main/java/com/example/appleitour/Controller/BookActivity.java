@@ -44,25 +44,27 @@ public class BookActivity extends AppCompatActivity {
         year.setText(book.getYear());
         sinopse.setText(book.getSinopse());
 
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_annotation);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-        UserBook userBook = new UserBook(book.getKey(), 1);
-        ArrayList<Annotation> annotation = databaseHelper.selectAnnotations(userBook);
-        AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation,book);
-        recyclerView.setAdapter(annotationAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
+        int userId = settings.getInt("UserId", 0);
+        if(!db.checkUserBook(book.getKey(), userId)) {
+            int userBookId = db.selectUserBookId(book.getKey(), userId);
+            ArrayList<Annotation> annotation = databaseHelper.selectAnnotations(userBookId);
+            AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation,book);
+            recyclerView.setAdapter(annotationAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        }
         btnCreate.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
             intent.putExtra("Book",book);
+            int userBookId = db.selectUserBookId(book.getKey(), userId);
+            intent.putExtra("UserBook",userBookId);
             startActivity(intent);
             finish();
         });
 
         btnSave.setOnClickListener(view -> {
-            SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
-            int userId = 1;//settings.getInt("userId", 1);
             if(db.checkBookIsStored(book.getKey())) {
                 db.insertBook(book);
             }else{

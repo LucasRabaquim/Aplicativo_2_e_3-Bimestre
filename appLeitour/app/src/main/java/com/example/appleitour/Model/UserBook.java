@@ -11,4 +11,8 @@ public class UserBook {
 
     public int getUserBookId() { return UserBook; }
     public void setUserBookId(int userBookId){this.UserBook = userBookId;}
+    public String getBookId() { return bookId; }
+    public void setBookId(String userBookId){this.bookId = bookId;}
+    public int getUserId() { return userId; }
+    public void setUserId(int userId){this.userId = userId;}
 }

@@ -26,7 +26,7 @@ public class AnnotationActivity extends AppCompatActivity {
         Book book = (Book) getIntent().getSerializableExtra("Book");
         Annotation annotation = (Annotation) getIntent().getSerializableExtra("Annotation");
         boolean updateMode = getIntent().getBooleanExtra("AnnotationUpdate",false);
-        int userId = getIntent().getIntExtra("userId",0);
+        int userBook = getIntent().getIntExtra("UserBook",0);
         EditText editText = findViewById(R.id.edit_annotation);
 
         btnSaveUpdate = findViewById(R.id.btn_annotation_save);
@@ -40,10 +40,8 @@ public class AnnotationActivity extends AppCompatActivity {
         btnSaveUpdate.setOnClickListener(view -> {
             String text = editText.getText().toString().trim();
             String bookId = book.getKey();
-            int userBook = db.selectUserBookId(bookId,userId);
             Annotation userAnnotation;
             db.getWritableDatabase();
-            Log.d("Atualizar?",String.valueOf(updateMode));
             if(updateMode){
                 userAnnotation = new Annotation(annotation.getId(),userBook,text,book.getAuthor(),book.getName());
                 db.updateAnnotation(userAnnotation);

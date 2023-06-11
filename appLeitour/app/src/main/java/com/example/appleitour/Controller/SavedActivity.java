@@ -1,9 +1,11 @@
 package com.example.appleitour.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.appleitour.Adapter.SavedAdapter;
@@ -23,7 +25,10 @@ public class SavedActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_saved_book);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-        ArrayList<Book> books = databaseHelper.selectBooks();
+        SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
+        int userId = settings.getInt("UserId", 0);
+
+        ArrayList<Book> books = databaseHelper.selectBooks(userId);
         SavedAdapter savedAdapter = new SavedAdapter(this,books);
         recyclerView.setAdapter(savedAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

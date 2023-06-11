@@ -15,14 +15,13 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         finish();
-        /*
+
         SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
-        int Theme = settings.getInt("Theme", 1);
+        int Theme = settings.getInt("Theme", AppCompatDelegate.MODE_NIGHT_NO);
         AppCompatDelegate.setDefaultNightMode(Theme);
-        boolean keepLogged = settings.getBoolean("Theme", false);
+        boolean keepLogged = settings.getBoolean("keepLogged", false);
         if(keepLogged)
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
         else
@@ -30,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),CadastrarActivity.class));
             else
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-*/
+
 
     }
 }

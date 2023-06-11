@@ -56,11 +56,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         adapter = new BookAdapter(getApplicationContext());
         dataListView.setAdapter((adapter));
 
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
-        User user = new User("Lucas","123","email",(byte)123,123);
-        dbHelper.insertUser(user);
-
-
         dataListView.setOnItemClickListener((adapterView, view, i, l) -> {
             Book book = (Book) adapterView.getItemAtPosition(i);
             Intent intent = new Intent(getApplicationContext(), BookActivity.class);
@@ -83,9 +78,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 intent = new Intent(getApplicationContext(), SavedActivity.class);
             else if (R.id.nav_search == item.getItemId())
                 intent = new Intent(getApplicationContext(), MainActivity.class);
-            else
+            else {
                 intent = new Intent(getApplicationContext(), CadastrarActivity.class);
-
+            }
             startActivity(intent);
             return false;
         });
