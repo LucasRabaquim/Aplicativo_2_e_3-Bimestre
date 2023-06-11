@@ -1,53 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/repository_item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:background="@color/white"
-    android:padding="15dp">
-
-    <TextView
-        android:id="@+id/bookName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nome"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/bookAuthor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bookName"
-        android:text="Autor"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/bookEditora"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bookAuthor"
-        android:text="Editora"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/bookLang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bookEditora"
-        android:text="Idioma"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/bookDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bookLang"
-        android:text="Data"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/repository_item" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp" android:background="@color/white" android:padding="15dp">
+    <ImageView android:id="@+id/bookCover" android:layout_width="80dp" android:layout_height="120dp" android:src="@drawable/placeholder" android:scaleType="centerCrop" android:contentDescription="/"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="10dp">
+        <TextView android:id="@+id/bookName" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nome" android:textColor="@color/black" android:textSize="18sp"/>
+        <TextView android:id="@+id/bookAuthor" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Autor" android:textColor="@color/black" android:textSize="16sp"/>
+        <TextView android:id="@+id/bookEditora" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Editora" android:textColor="@color/black" android:textSize="16sp"/>
+        <TextView android:id="@+id/bookLang" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Idioma" android:textColor="@color/black" android:textSize="16sp"/>
+        <TextView android:id="@+id/bookDate" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Data" android:textColor="@color/black" android:textSize="16sp"/>
+    </LinearLayout>
+</LinearLayout>

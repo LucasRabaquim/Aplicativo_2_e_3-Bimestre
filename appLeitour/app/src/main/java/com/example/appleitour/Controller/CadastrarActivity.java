@@ -36,8 +36,7 @@ public class CadastrarActivity extends AppCompatActivity {
             db.insertUser(user);
             SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("UserId",db.selectUser(email));
-            Log.d("USUARIO ID REOTRNAOD", String.valueOf(db.selectUser(email)));
+            editor.putInt("UserId",db.selectLastInsert());
             editor.putBoolean("keepLogged",keepLogged.isChecked());
             editor.apply();
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);

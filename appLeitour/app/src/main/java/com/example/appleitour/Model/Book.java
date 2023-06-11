@@ -15,13 +15,13 @@ public class Book implements Serializable {
     private String publisher;
     private int pages;
     private int edition;
-    private byte cover;
+    private String cover;
     private String sinopse;
     private String language;
     private String year;
 
     public Book(){}
-    public Book(String _key, int _isbn,String _name,String _author,String _publisher,int _pages,int _edition,byte _cover,String _sinopse,String _language,String _year) {
+    public Book(String _key, int _isbn,String _name,String _author,String _publisher,int _pages,int _edition,String _cover,String _sinopse,String _language,String _year) {
         this.key = _key;
         this.isbn = _isbn;
         this.name = _name;
@@ -56,10 +56,10 @@ public class Book implements Serializable {
     public void setEdition(int edition){this.edition = edition;}
     public int getEdition(){return this.edition;}
 
-    public void setCover(Byte cover){
+    public void setCover(String cover){
         this.cover = cover;
     }
-    public byte getCover(){
+    public String getCover(){
         return this.cover;
     }
 
@@ -72,9 +72,11 @@ public class Book implements Serializable {
     public void setYear(String year){this.year = year;}
     public String getYear(){return this.year;}
 
-    public void debug(){
+    public void debug(int userBook){
+        Log.d("BOOK DEBUG ","============================");
         Log.d("Key",this.key);
         Log.d("Name",this.name);
+        Log.d("USER BOOK ID",String.valueOf(userBook));
     }
 
 

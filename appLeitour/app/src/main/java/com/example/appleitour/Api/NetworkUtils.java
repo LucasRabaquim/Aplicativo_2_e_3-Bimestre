@@ -81,7 +81,12 @@ public class NetworkUtils {
                 JSONObject currentBook = docs.getJSONObject(i);
                 String bookName = currentBook.getString("title");
 
-                String bookKey = currentBook.getString("key").replace("/works/","");
+                JSONArray seedArray = currentBook.optJSONArray("seed");
+                String bookKey = "";
+                if (seedArray != null && seedArray.length() > 0) {
+                    String seed = seedArray.getString(0);
+                    bookKey = seed.replace("/books/", "");
+                }
 
                 JSONArray isbnArray = currentBook.getJSONArray("isbn");
                 int bookIsbn = 0;
@@ -151,10 +156,11 @@ public class NetworkUtils {
                     bookDate = publishDateArray.getString(0);
                 }
 
-                Log.v("Data", "Number" + (i + 1));
+                //Log.v("Data", "Number" + (i + 1));
 
-                Byte bookCover = (byte) 123;
-                Book Book = new Book(bookKey,bookIsbn, bookName, bookAuthor, bookEditora, bookPages, bookEdition, bookCover, bookSinopse, bookLang, bookDate);
+                String bookCover = "https://covers.openlibrary.org/b/olid/"+bookKey+"-L.jpg";
+                Log.v("ImageCover", bookCover);
+                Book Book = new Book(bookKey, bookIsbn, bookName, bookAuthor, bookEditora, bookPages, bookEdition, bookCover, bookSinopse, bookLang, bookDate);
                 bookList.add(Book);
             }
         } catch (JSONException ex) {

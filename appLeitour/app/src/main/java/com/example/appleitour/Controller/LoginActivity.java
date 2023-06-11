@@ -34,14 +34,14 @@ public class LoginActivity extends AppCompatActivity {
             if(db.verificarUsuarioCadastrado(email,senha)){
                 SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("UserId",db.selectUser(email));
+                editor.putInt("UserId",db.selectLastInsert());
                 editor.putBoolean("keepLogged",keepLogged.isChecked());
                 editor.apply();
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 finish();
                 startActivity(intent);
             }else{
-                Toast.makeText(getApplicationContext(),"Usuario ou senha incorretos",Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(),"Usuario ou senha incorretos",Toast.LENGTH_SHORT).show();
             }
 
 

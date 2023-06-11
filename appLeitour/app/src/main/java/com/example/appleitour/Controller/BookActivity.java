@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.appleitour.Adapter.AnnotationAdapter;
@@ -29,6 +30,7 @@ public class BookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book);
         FloatingActionButton btnSave = findViewById(R.id.btn_save_book);
         FloatingActionButton btnCreate = findViewById(R.id.btn_create_annotation);
+        btnCreate.setVisibility(View.INVISIBLE);
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         db.getReadableDatabase();
         Book book = (Book) getIntent().getSerializableExtra("Book");
@@ -49,7 +51,8 @@ public class BookActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
         int userId = settings.getInt("UserId", 0);
         if(!db.checkUserBook(book.getKey(), userId)) {
-            int userBookId = db.selectUserBookId(book.getKey(), userId);
+            btnCreate.setVisibility(View.VISIBLE);
+            int userBookId = db.selectLastInsertBookId(book.getKey(), userId);
             ArrayList<Annotation> annotation = databaseHelper.selectAnnotations(userBookId);
             AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation,book);
             recyclerView.setAdapter(annotationAdapter);
@@ -58,32 +61,25 @@ public class BookActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
             intent.putExtra("Book",book);
-            int userBookId = db.selectUserBookId(book.getKey(), userId);
+            int userBookId = db.selectLastInsertBookId(book.getKey(), userId);
             intent.putExtra("UserBook",userBookId);
             startActivity(intent);
             finish();
         });
 
         btnSave.setOnClickListener(view -> {
-            if(db.checkBookIsStored(book.getKey())) {
+            if(db.checkBookIsStored(book.getKey())) {// Se o livro nao estiver no banco, salva
                 db.insertBook(book);
-            }else{
-                db.deleteBook(book.getKey());
-               /* Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
-                finish();
-                startActivity(intent);*/
-            }
-            if(db.checkUserBook(book.getKey(), userId)){
                 db.insertUserBook(book.getKey(),userId);
-                Log.d("BANCO","Relação criada");
             }
-          else {
+            else if(db.checkUserBook(book.getKey(), userId)){// Se ele ta no banco, mas não salvei ele, salva pra mim
+                db.insertUserBook(book.getKey(),userId);
+            }
+            else { // Se ele esta no banco e eu salvei ele, cliquei denovo porque quero apagar
                 db.deleteUserBook(book.getKey(),userId);
-                Log.d("BANCO","Relação deletada");
-               /* if(!db.checkBookIsSaved(book.getKey())) {
-                    db.deleteBook(book.getKey());
-                    Log.d("BANCO", "Livro deletado");
-                }*/
+            }
+            if(db.checkBookIsSaved(book.getKey())){ // Se o livro nao tiver sido salvo por nenhum usuario, apaga do banco
+                db.deleteBook(book.getKey());
             }
         });
     }
