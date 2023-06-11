@@ -49,6 +49,7 @@ public class AnnotationActivity extends AppCompatActivity {
             else{
                 userAnnotation = new Annotation(userBook,text,book.getAuthor(),book.getName());
                 db.insertAnnotation(userAnnotation);
+
             }
             Intent intent = new Intent(getApplicationContext(),BookActivity.class);
             intent.putExtra("Book",book);

@@ -7,14 +7,25 @@
     <string name="cblembrar">Lembrar login</string>
     <string name="btnlogin">Login</string>
     <string name="btncadastrar">Cadastrar</string>
-    <string name="search">Search</string>
-    <string name="error_message">Failed to get result, please try again.</string>
-    <string name="hint_message">Type a book</string>
-    <string name="language">Language</string>
-    <string name="name">Name</string>
-    <string name="owner">Owner</string>
-    <string name="stars">Stars</string>
+    <string name="search">Pesquisar</string>
+    <string name="error_message">Erro em encontrar o livro, tente denovo</string>
+    <string name="hint_message">Pesquise um livro</string>
+    <string name="language">Idioma: \n %1$s</string>
+    <string name="name">Livro: %1$s</string>
+    <string name="publisher">Editora: %1$s</string>
+    <string name="author">Autor: %1$s</string>
+    <string name="year">Ano: %1$s</string>
+    <string name="isbn">Isbn: %1$d</string>
+    <string name="edition">Edição: %1$d</string>
+    <string name="pages">Paginas: %1$d</string>
+    <string name="sinopse">Sinopse: %1$s</string>
     <string name="pesquisar">Pesquisar</string>
+    <string name="btn_alterar">Alterar</string>
+    <string name="btn_excluir">Excluir</string>
+    <string name="btn_salvar">Salvar</string>
+    <string name="btn_nao_tem_conta">Não tem conta? Cadastrar</string>
+    <string name="btn_tem_conta">Tem uma conta? Login</string>
+
     <string name="title_activity_main_quotes">mainQuotes</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -105,7 +116,7 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configurações</string>
     <string name="livros_salvos">Livros salvos</string>
     <string name="pesquisar_livros">Pesquisar\n</string>
 </resources>

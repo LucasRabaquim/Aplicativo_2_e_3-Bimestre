@@ -21,7 +21,7 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
     private static final String API_URL = "https://openlibrary.org/search.json";
-    private static final String QUERY_PARAM = "title";
+    private static final String QUERY_PARAM = "q";
     private static final String MODE = "mode";
     private static final String LIMIT = "limit";
     private static final String OFFSET = "offset";
@@ -127,11 +127,11 @@ public class NetworkUtils {
 
                 JSONArray sinopseArray = currentBook.optJSONArray("language");
                 String bookSinopse = "";
-                if (sinopseArray != null && sinopseArray.length() > 0) {
+            /*    if (sinopseArray != null && sinopseArray.length() > 0) {
                     bookSinopse = sinopseArray.getString(0);
                 } else {
                     bookSinopse = "-";
-                }
+                }*/
                 JSONArray languageArray = currentBook.optJSONArray("language");
                 List<String> bookLangList = new ArrayList<>();
                 if (languageArray != null && languageArray.length() > 0) {
@@ -164,7 +164,7 @@ public class NetworkUtils {
                 bookList.add(Book);
             }
         } catch (JSONException ex) {
-        //    Log.v("Network", "Cannot read JSON", ex);
+            //    Log.v("Network", "Cannot read JSON", ex);
         }
         return bookList;
     }

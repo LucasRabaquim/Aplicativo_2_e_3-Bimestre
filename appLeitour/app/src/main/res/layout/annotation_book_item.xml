@@ -33,8 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/placeholder"
-                    android:textAppearance="?attr/textAppearanceTitleMedium"
-                    />
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
                 <TextView
                     android:id="@+id/item_annotation_author"
                     android:layout_width="wrap_content"
@@ -71,14 +70,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="X alterar" />
+                    android:text="@string/btn_alterar" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_annotation_discard"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="X apagar" />
+                    android:text="@string/btn_excluir" />
             </LinearLayout>
 
         </LinearLayout>

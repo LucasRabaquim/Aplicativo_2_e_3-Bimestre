@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText editSenha = findViewById(R.id.txtpassword);
         CheckBox keepLogged = findViewById(R.id.checkbox_lembrarLogin);
         Button btnLogin = findViewById(R.id.btn_login);
-
+        findViewById(R.id.txt_nao_tem_conta).setOnClickListener(view -> {startActivity(new Intent(getApplicationContext(),CadastrarActivity.class));});
         btnLogin.setOnClickListener(view -> {
             String email = editEmail.getText().toString().trim();
             String senha = editSenha.getText().toString().trim();

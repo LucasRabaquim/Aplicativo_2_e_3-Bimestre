@@ -43,5 +43,6 @@ public class CadastrarActivity extends AppCompatActivity {
             finish();
             startActivity(intent);
         });
+        findViewById(R.id.txt_tem_conta).setOnClickListener(view -> {startActivity(new Intent(getApplicationContext(),LoginActivity.class));});
     }
 }

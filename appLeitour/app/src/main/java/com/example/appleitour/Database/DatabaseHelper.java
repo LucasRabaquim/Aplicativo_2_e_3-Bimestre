@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.appleitour.Model.*;
 import com.example.appleitour.Model.Book;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -179,6 +181,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TbAnnotation.COLUMN_AUTHOR, annotation.getAuthor());
         contentValues.put(TbAnnotation.COLUMN_BOOK, annotation.getBook());
         long test = db.insert(TbAnnotation.TABLE_NAME,null, contentValues);
+
     }
 
     public ArrayList<Annotation> selectAnnotations(int userBook){
@@ -197,6 +200,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 annotation.setAuthor(cursor.getString(3));
                 annotation.setBook(cursor.getString(4));
                 annotations.add(annotation);
+                Log.d( "selectAnnotations nome: ",annotation.getAnnotation());
             }
         cursor.close();
         }

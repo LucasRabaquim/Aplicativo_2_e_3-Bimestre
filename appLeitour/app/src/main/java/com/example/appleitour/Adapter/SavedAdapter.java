@@ -1,22 +1,24 @@
 package com.example.appleitour.Adapter;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ImageView;
+        import android.widget.LinearLayout;
+        import android.widget.TextView;
+        import androidx.annotation.NonNull;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appleitour.Controller.BookActivity;
-import com.example.appleitour.Model.Book;
-import com.example.appleitour.R;
-import com.example.appleitour.Model.Book;
-import com.example.appleitour.R;
-import java.util.ArrayList;
+        import com.example.appleitour.Controller.BookActivity;
+        import com.example.appleitour.Model.Book;
+        import com.example.appleitour.R;
+        import com.example.appleitour.Model.Book;
+        import com.example.appleitour.R;
+        import com.squareup.picasso.Picasso;
+
+        import java.util.ArrayList;
 
 public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> {
     Context context;
@@ -50,12 +52,12 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book book = books.get(position);
+        Picasso.get().load(book.getCover()).into(holder.cover);
         holder.title.setText(book.getName());
         holder.author.setText(book.getAuthor());
 
 
-        Log.d("Titulo", (String) holder.title.getText());
-        Log.d("author", (String) holder.author.getText());
+        Picasso.get().load(book.getCover()).into(holder.cover);
         holder.mainLayout.setOnClickListener(view -> {
             Intent intent = new Intent(context, BookActivity.class);
             intent.putExtra("Book", book);
@@ -63,7 +65,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         });
     }
 
-        @Override
+    @Override
     public int getItemCount() {
         return this.books.size();
     }

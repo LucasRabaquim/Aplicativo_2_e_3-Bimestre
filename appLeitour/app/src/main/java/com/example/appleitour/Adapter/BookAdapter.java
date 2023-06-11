@@ -34,6 +34,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         Book currentBook = getItem(position);
         Picasso.get().load(currentBook.getCover()).into(bookCover);
+
         bookName.setText(String.valueOf(currentBook.getName()));
         bookAuthor.setText(currentBook.getAuthor());
         bookEditora.setText(currentBook.getPublisher());

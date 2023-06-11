@@ -23,7 +23,7 @@ public class TbBook {
             "   " + COLUMN_PUBLISHER + " TEXT NOT NULL," +
             "   " + COLUMN_PAGES + " INTEGER," +
             "   " + COLUMN_EDITION + " INTEGER," +
-            "   " + COLUMN_COVER + " BLOB," +
+            "   " + COLUMN_COVER + " TEXT," +
             "   " + COLUMN_SINOPSE + " TEXT," +
             "   " + COLUMN_YEAR + " TEXT NOT NULL," +
             "   " + COLUMN_LANGUAGE + " TEXT);";
