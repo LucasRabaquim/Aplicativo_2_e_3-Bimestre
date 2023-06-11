@@ -12,8 +12,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearBook"
@@ -26,112 +28,107 @@
                 android:layout_width="match_parent"
                 android:layout_height="256dp"
                 android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="@+id/linearBook"
-                app:layout_constraintEnd_toEndOf="@+id/linearBook"
-                app:layout_constraintStart_toStartOf="@+id/linearBook"
-                app:layout_constraintTop_toTopOf="@+id/linearBook"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/placeholder" />
-
-            <ImageView
-                android:id="@+id/book_cover"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/book_background"
-                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.133"
                 app:srcCompat="@drawable/placeholder" />
-
-            <TextView
-                android:id="@+id/book_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/placeholder"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/book_cover"
-                app:layout_constraintHorizontal_bias="0.508"
-                app:layout_constraintStart_toStartOf="@+id/book_cover"
-                app:layout_constraintTop_toBottomOf="@+id/book_cover"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <TextView
-                android:id="@+id/book_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/book_title"
-                app:layout_constraintStart_toStartOf="@+id/book_title"
-                app:layout_constraintTop_toBottomOf="@+id/book_title"
-                app:layout_constraintVertical_bias="0.062" />
-
-            <TextView
-                android:id="@+id/book_publisher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/book_author"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/book_author"
-                app:layout_constraintTop_toBottomOf="@+id/book_author"
-                app:layout_constraintVertical_bias="0.06" />
-
-            <TextView
-                android:id="@+id/book_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/book_publisher"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/book_publisher"
-                app:layout_constraintTop_toBottomOf="@+id/book_publisher"
-                app:layout_constraintVertical_bias="0.049" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_create_annotation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-28dp"
                 android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/book_cover"
-                app:layout_constraintHorizontal_bias="0.576"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/book_cover"
-                app:layout_constraintVertical_bias="0.278"
+                app:layout_constraintTop_toBottomOf="@+id/book_background"
+                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/ic_menu_gallery" />
+
+            <ImageView
+                android:id="@+id/book_cover"
+                android:layout_width="180dp"
+                android:layout_height="260dp"
+                android:layout_margin="90dp"
+                app:layout_constraintEnd_toEndOf="@id/book_background"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/placeholder" />
+
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_save_book"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-28dp"
                 android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.843"
+                app:layout_constraintStart_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_background"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/ic_menu_camera" />
+
+            <TextView
+                android:id="@+id/book_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/placeholder"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="@+id/book_cover"
-                app:layout_constraintTop_toTopOf="@+id/book_cover"
-                app:layout_constraintVertical_bias="0.278"
-                app:srcCompat="@drawable/ic_menu_gallery" />
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_cover"
+                app:layout_constraintBottom_toTopOf="@+id/book_author" />
+
+            <TextView
+                android:id="@+id/book_author"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_title"
+                app:layout_constraintBottom_toTopOf="@+id/book_publisher" />
+
+            <TextView
+                android:id="@+id/book_publisher"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_author"
+                app:layout_constraintBottom_toTopOf="@+id/book_year" />
+
+            <TextView
+                android:id="@+id/book_year"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="TextView"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_publisher"
+                app:layout_constraintBottom_toTopOf="@+id/txt_book_sinopse" />
 
             <TextView
                 android:id="@+id/txt_book_sinopse"
-                android:layout_width="255dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/book_year"
-                app:layout_constraintHorizontal_bias="0.51"
-                app:layout_constraintStart_toStartOf="@+id/book_year"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
                 app:layout_constraintTop_toBottomOf="@+id/book_year"
-                app:layout_constraintVertical_bias="0.107" />
+                app:layout_constraintBottom_toTopOf="@+id/recycler_annotation" />
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_annotation"
@@ -139,9 +136,10 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_book_sinopse"
-                app:layout_constraintVertical_bias="0.57">
+                app:layout_constraintVertical_bias="0.0">
 
             </androidx.recyclerview.widget.RecyclerView>
         </androidx.constraintlayout.widget.ConstraintLayout>

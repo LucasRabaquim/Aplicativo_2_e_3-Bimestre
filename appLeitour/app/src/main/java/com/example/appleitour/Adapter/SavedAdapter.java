@@ -16,6 +16,8 @@ import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> {
@@ -50,6 +52,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book book = books.get(position);
+        Picasso.get().load(book.getCover()).into(holder.cover);
         holder.title.setText(book.getName());
         holder.author.setText(book.getAuthor());
 
