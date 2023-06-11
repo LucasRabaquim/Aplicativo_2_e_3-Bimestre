@@ -61,13 +61,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext()) {
                 Book book = new Book();
                 book.setKey(cursor.getString(0));
-                book.setIsbn(cursor.getInt(1));
+                book.setIsbn(cursor.getString(1));
                 book.setName(cursor.getString(2));
                 book.setAuthor(cursor.getString(3));
                 book.setPublisher(cursor.getString(4));
                 book.setPages(cursor.getInt(5));
                 book.setEdition(cursor.getInt(6));
-                book.setCover((byte) cursor.getInt(7));
+                book.setCover(cursor.getString(7));
                 book.setSinopse(cursor.getString(8));
                 book.setYear(cursor.getString(9));
                 book.setLanguage(cursor.getString(10));
@@ -175,7 +175,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 annotation.setBook(cursor.getString(4));
                 annotations.add(annotation);
             }
-        cursor.close();
+            cursor.close();
         }
         Log.d("Anotaçoes", String.valueOf(annotations));
         return annotations;
@@ -195,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteAnnotation(String _id){
         SQLiteDatabase db = this.getWritableDatabase();
-       long test = db.delete(TbAnnotation.TABLE_NAME, TbAnnotation.COLUMN_ID+"=?", new String[]{_id});
+        long test = db.delete(TbAnnotation.TABLE_NAME, TbAnnotation.COLUMN_ID+"=?", new String[]{_id});
         Log.d("Deletar anotação",test != -1 ? "Bom" : "ferrou");
 
     }

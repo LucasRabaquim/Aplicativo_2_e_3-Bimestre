@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +27,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         if (view == null)
             view = LayoutInflater.from(getContext()).inflate(R.layout.respository_item, parent, false);
 
-
+        ImageView bookCover = view.findViewById(R.id.bookCover);
         TextView bookName = view.findViewById(R.id.bookName);
         TextView bookAuthor = view.findViewById(R.id.bookAuthor);
         TextView bookEditora = view.findViewById(R.id.bookEditora);
@@ -32,6 +35,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
         TextView bookDate = view.findViewById(R.id.bookDate);
 
         Book currentBook = getItem(position);
+
+        Picasso.get().load(currentBook.getCover()).into(bookCover);
         bookName.setText(String.valueOf(currentBook.getName()));
         bookAuthor.setText(currentBook.getAuthor());
         bookEditora.setText(currentBook.getPublisher());

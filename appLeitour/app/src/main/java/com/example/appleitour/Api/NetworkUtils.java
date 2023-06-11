@@ -21,7 +21,7 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
     private static final String API_URL = "https://openlibrary.org/search.json";
-    private static final String QUERY_PARAM = "title";
+    private static final String QUERY_PARAM = "q";
     private static final String MODE = "mode";
     private static final String LIMIT = "limit";
     private static final String OFFSET = "offset";
@@ -81,12 +81,17 @@ public class NetworkUtils {
                 JSONObject currentBook = docs.getJSONObject(i);
                 String bookName = currentBook.getString("title");
 
-                String bookKey = currentBook.getString("key").replace("/works/","");
+                JSONArray seedArray = currentBook.optJSONArray("seed");
+                String bookKey = "";
+                if (seedArray != null && seedArray.length() > 0) {
+                    String seed = seedArray.getString(0);
+                    bookKey = seed.replace("/books/", "");
+                }
 
                 JSONArray isbnArray = currentBook.getJSONArray("isbn");
-                int bookIsbn = 0;
+                String bookIsbn = "";
                 if (isbnArray.length() > 0) {
-                    bookIsbn = isbnArray.getInt(0);
+                    bookIsbn = isbnArray.getString(0);
                 }
 
                 JSONArray authorArray = currentBook.getJSONArray("author_name");
@@ -151,10 +156,10 @@ public class NetworkUtils {
                     bookDate = publishDateArray.getString(0);
                 }
 
-                Log.v("Data", "Number" + (i + 1));
-
-                Byte bookCover = (byte) 123;
-                Book Book = new Book(bookKey,bookIsbn, bookName, bookAuthor, bookEditora, bookPages, bookEdition, bookCover, bookSinopse, bookLang, bookDate);
+//                Log.v("Data", "Number" + (i + 1));
+                String bookCover = "https://covers.openlibrary.org/b/olid/"+bookKey+"-L.jpg";
+                Log.v("ImageCover", bookCover);
+                Book Book = new Book(bookKey, bookIsbn, bookName, bookAuthor, bookEditora, bookPages, bookEdition, bookCover, bookSinopse, bookLang, bookDate);
                 bookList.add(Book);
             }
         } catch (JSONException ex) {

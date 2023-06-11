@@ -8,19 +8,19 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
     private String key;
-    private int isbn;
+    private String isbn;
     private String name;
     private String author;
     private String publisher;
     private int pages;
     private int edition;
-    private byte cover;
+    private String cover;
     private String sinopse;
     private String language;
     private String year;
 
     public Book(){}
-    public Book(String _key, int _isbn,String _name,String _author,String _publisher,int _pages,int _edition,byte _cover,String _sinopse,String _language,String _year) {
+    public Book(String _key, String _isbn,String _name,String _author,String _publisher,int _pages,int _edition, String _cover,String _sinopse,String _language,String _year) {
         this.key = _key;
         this.isbn = _isbn;
         this.name = _name;
@@ -37,8 +37,8 @@ public class Book implements Serializable {
 
     public void setKey(String _key){this.key = _key;}
     public String getKey(){return this.key;}
-    public void setIsbn(int _isbn){this.isbn = _isbn;}
-    public int getIsbn(){return this.isbn;}
+    public void setIsbn(String _isbn){this.isbn = _isbn;}
+    public String getIsbn(){return this.isbn;}
 
     public void setName(String name){this.name = name;}
     public String getName(){return this.name;}
@@ -55,10 +55,10 @@ public class Book implements Serializable {
     public void setEdition(int edition){this.edition = edition;}
     public int getEdition(){return this.edition;}
 
-    public void setCover(Byte cover){
+    public void setCover(String cover){
         this.cover = cover;
     }
-    public byte getCover(){
+    public String getCover(){
         return this.cover;
     }
 

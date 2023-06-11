@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.appleitour.Adapter.AnnotationAdapter;
@@ -18,6 +19,7 @@ import com.example.appleitour.Model.User;
 import com.example.appleitour.Model.UserBook;
 import com.example.appleitour.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -32,12 +34,17 @@ public class BookActivity extends AppCompatActivity {
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         db.getReadableDatabase();
         Book book = (Book) getIntent().getSerializableExtra("Book");
+        ImageView backgroundCover = findViewById(R.id.book_background);
+        ImageView bookCover = findViewById(R.id.book_cover);
         TextView title = findViewById(R.id.book_title);
         TextView author = findViewById(R.id.book_author);
         TextView publisher = findViewById(R.id.book_publisher);
         TextView year = findViewById(R.id.book_year);
         TextView sinopse = findViewById(R.id.txt_book_sinopse);
 
+
+        Picasso.get().load(book.getCover()).into(backgroundCover);
+        Picasso.get().load(book.getCover()).into(bookCover);
         title.setText(book.getName());
         author.setText(book.getAuthor());
         publisher.setText(book.getPublisher());
