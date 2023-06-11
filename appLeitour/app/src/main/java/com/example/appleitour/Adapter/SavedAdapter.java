@@ -11,6 +11,7 @@ package com.example.appleitour.Adapter;
         import androidx.annotation.NonNull;
         import androidx.recyclerview.widget.RecyclerView;
 
+<<<<<<< HEAD
         import com.example.appleitour.Controller.BookActivity;
         import com.example.appleitour.Model.Book;
         import com.example.appleitour.R;
@@ -19,6 +20,16 @@ package com.example.appleitour.Adapter;
         import com.squareup.picasso.Picasso;
 
         import java.util.ArrayList;
+=======
+import com.example.appleitour.Controller.BookActivity;
+import com.example.appleitour.Model.Book;
+import com.example.appleitour.R;
+import com.example.appleitour.Model.Book;
+import com.example.appleitour.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
 public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> {
     Context context;

@@ -36,6 +36,8 @@ public class BookActivity extends AppCompatActivity {
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         db.getReadableDatabase();
         Book book = (Book) getIntent().getSerializableExtra("Book");
+        ImageView backgroundCover = findViewById(R.id.book_background);
+        ImageView bookCover = findViewById(R.id.book_cover);
         TextView title = findViewById(R.id.book_title);
         TextView author = findViewById(R.id.book_author);
         TextView publisher = findViewById(R.id.book_publisher);
@@ -46,6 +48,7 @@ public class BookActivity extends AppCompatActivity {
         TextView language = findViewById(R.id.book_language);
         TextView pages = findViewById(R.id.book_pages);
 
+<<<<<<< HEAD
         ImageView bookCover = findViewById(R.id.book_cover);
         ImageView bookBackground = findViewById(R.id.book_background);
         title.setText(getResources().getString(R.string.name,book.getName()));
@@ -64,6 +67,15 @@ public class BookActivity extends AppCompatActivity {
             pages.setText(getResources().getString(R.string.pages,book.getPages()));
         Picasso.get().load(book.getCover()).into(bookCover);
         Picasso.get().load(book.getCover()).into(bookBackground);
+=======
+        Picasso.get().load(book.getCover()).into(backgroundCover);
+        Picasso.get().load(book.getCover()).into(bookCover);
+        title.setText(book.getName());
+        author.setText(book.getAuthor());
+        publisher.setText(book.getPublisher());
+        year.setText(book.getYear());
+        sinopse.setText(book.getSinopse());
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
         RecyclerView recyclerView = findViewById(R.id.recycler_annotation);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());

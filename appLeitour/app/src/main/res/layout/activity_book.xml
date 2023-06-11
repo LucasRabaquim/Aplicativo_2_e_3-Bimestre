@@ -15,7 +15,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="1.0">
+=======
+        app:layout_constraintVertical_bias="0.0">
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearBook"
@@ -45,7 +49,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/book_background"
                 app:layout_constraintVertical_bias="0.0"
+<<<<<<< HEAD
                 app:srcCompat="@drawable/write_annotation" />
+
+            <ImageView
+                android:id="@+id/book_cover"
+                android:layout_width="180dp"
+                android:layout_height="260dp"
+                android:layout_margin="90dp"
+                app:layout_constraintEnd_toEndOf="@id/book_background"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/placeholder" />
+
+=======
+                app:srcCompat="@drawable/ic_menu_gallery" />
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
             <ImageView
                 android:id="@+id/book_cover"
@@ -70,43 +90,75 @@
                 app:layout_constraintStart_toEndOf="@+id/book_cover"
                 app:layout_constraintTop_toBottomOf="@+id/book_background"
                 app:layout_constraintVertical_bias="0.0"
+<<<<<<< HEAD
                 app:srcCompat="@drawable/tosave" />
+=======
+                app:srcCompat="@drawable/ic_menu_camera" />
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
             <TextView
                 android:id="@+id/book_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
+<<<<<<< HEAD
                 android:gravity="center"
                 android:text="@string/placeholder"
                 app:layout_constraintEnd_toEndOf="@+id/book_cover"
                 app:layout_constraintStart_toStartOf="@+id/book_cover"
                 app:layout_constraintTop_toBottomOf="@+id/book_cover" />
+=======
+                android:text="@string/placeholder"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_cover"
+                app:layout_constraintBottom_toTopOf="@+id/book_author" />
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
             <TextView
                 android:id="@+id/book_author"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:gravity="center"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="@+id/book_title"
                 app:layout_constraintStart_toStartOf="@+id/book_title"
                 app:layout_constraintTop_toBottomOf="@+id/book_title" />
+=======
+                android:text="TextView"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_title"
+                app:layout_constraintBottom_toTopOf="@+id/book_publisher" />
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
             <TextView
                 android:id="@+id/book_publisher"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:gravity="center"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="@+id/book_author"
                 app:layout_constraintStart_toStartOf="@+id/book_author"
                 app:layout_constraintTop_toBottomOf="@+id/book_author" />
+=======
+                android:text="TextView"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_author"
+                app:layout_constraintBottom_toTopOf="@+id/book_year" />
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
             <TextView
                 android:id="@+id/book_year"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:gravity="center"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="@+id/book_publisher"
@@ -152,15 +204,33 @@
                 app:layout_constraintEnd_toEndOf="@+id/book_cover"
                 app:layout_constraintStart_toStartOf="@+id/book_cover"
                 app:layout_constraintTop_toBottomOf="@+id/book_isbn" />
+=======
+                android:layout_marginTop="15dp"
+                android:text="TextView"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_publisher"
+                app:layout_constraintBottom_toTopOf="@+id/txt_book_sinopse" />
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
             <TextView
                 android:id="@+id/txt_book_sinopse"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/book_cover"
                 app:layout_constraintStart_toStartOf="@+id/book_cover"
                 app:layout_constraintTop_toBottomOf="@+id/book_edition" />
+=======
+                android:text="TextView"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/book_cover"
+                app:layout_constraintEnd_toEndOf="@+id/book_cover"
+                app:layout_constraintTop_toBottomOf="@+id/book_year"
+                app:layout_constraintBottom_toTopOf="@+id/recycler_annotation" />
+>>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
 
             <androidx.recyclerview.widget.RecyclerView
