@@ -27,14 +27,14 @@ public class LoginActivity extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.btn_login);
         findViewById(R.id.txt_nao_tem_conta).setOnClickListener(view -> {startActivity(new Intent(getApplicationContext(),CadastrarActivity.class));});
         btnLogin.setOnClickListener(view -> {
-            String email = editEmail.getText().toString().trim();
-            String senha = editSenha.getText().toString().trim();
+            String email = editEmail.getText().toString();
+            String senha = editSenha.getText().toString();
             DatabaseHelper db = new DatabaseHelper(getApplicationContext());
             db.getReadableDatabase();
             if(db.verificarUsuarioCadastrado(email,senha)){
                 SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("UserId",db.selectLastInsert());
+                editor.putInt("UserId",db.retornarUsuarioCadastrado(email,senha));
                 editor.putBoolean("keepLogged",keepLogged.isChecked());
                 editor.apply();
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
@@ -43,8 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             }else{
                 Toast.makeText(getApplicationContext(),"Usuario ou senha incorretos",Toast.LENGTH_SHORT).show();
             }
-
-
         });
     }
 }

@@ -6,27 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
-
 import com.example.appleitour.Adapter.BookAdapter;
 import com.example.appleitour.Api.NetworkUtils;
-import com.example.appleitour.Database.DatabaseHelper;
 import com.example.appleitour.Model.Book;
-import com.example.appleitour.Model.User;
 import com.example.appleitour.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -37,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView errorMessage;
     private ProgressBar loadingBar;
     private BookAdapter adapter;
-
     private static final int BOOK_SEARCH_LOADER = 1;
     private static final String BOOK_QUERY_TAG = "query";
 
@@ -74,14 +67,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Intent intent;
-            if (R.id.nav_saved == item.getItemId())
-                intent = new Intent(getApplicationContext(), SavedActivity.class);
-            else if (R.id.nav_search == item.getItemId())
-                intent = new Intent(getApplicationContext(), MainActivity.class);
-            else {
-                intent = new Intent(getApplicationContext(), CadastrarActivity.class);
-            }
+            Class classe;
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_saved)
+                classe = SavedActivity.class;
+            else if (itemId == R.id.nav_search)
+                classe = MainActivity.class;
+            else
+                classe = CadastrarActivity.class;
+            intent = new Intent(getApplicationContext(), classe);
             startActivity(intent);
+            finish();
             return false;
         });
     }

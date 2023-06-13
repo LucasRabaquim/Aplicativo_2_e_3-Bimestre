@@ -7,7 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
+import android.widget.Toast;
+import com.example.appleitour.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.appleitour.Model.*;
@@ -21,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Leitour.db";
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.context = context;
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -135,12 +137,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getCount() > 0;
     }
 
+    public int retornarUsuarioCadastrado(String email, String senha){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "Select * from " + TbUser.TABLE_NAME + " where " +
+                TbUser.COLUMN_EMAIL + " =? " + " AND " + TbUser.COLUMN_PASSWORD + " =? ";
+        Cursor cursor = null;
+        if(db != null)
+            cursor = db.rawQuery(query, new String[]{email,senha});
+        if(cursor != null)
+            cursor.moveToFirst();
+        return (cursor.getCount() > 0) ? cursor.getInt(0) : 0;
+    }
+
+
+
     public void insertUserBook(String bookId, int userId){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TbUserBook.COLUMN_BOOKID, bookId);
         contentValues.put(TbUserBook.COLUMN_USERID, userId);
-        db.insert(TbUserBook.TABLE_NAME,null, contentValues);
+        long test = db.insert(TbUserBook.TABLE_NAME,null, contentValues);
+        showMessage(test != -1 ? R.string.msg_salvo : R.string.msg_erro_banco);
+
     }
     @SuppressLint("Recycle")
     public boolean checkUserBook(String bookId, int userId){
@@ -170,7 +188,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteUserBook(String bookId, int userId){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TbUserBook.TABLE_NAME, "_BookId=? AND _UserId=?", new String[]{bookId, String.valueOf(userId)});
+        long test = db.delete(TbUserBook.TABLE_NAME, "_BookId=? AND _UserId=?", new String[]{bookId, String.valueOf(userId)});
+        showMessage(test != -1 ? R.string.msg_deletado : R.string.msg_erro_banco);
     }
 
     public void insertAnnotation(Annotation annotation){
@@ -181,7 +200,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TbAnnotation.COLUMN_AUTHOR, annotation.getAuthor());
         contentValues.put(TbAnnotation.COLUMN_BOOK, annotation.getBook());
         long test = db.insert(TbAnnotation.TABLE_NAME,null, contentValues);
-
+        showMessage(test != -1 ? R.string.msg_anotacao_criada: R.string.msg_erro_banco);
     }
 
     public ArrayList<Annotation> selectAnnotations(int userBook){
@@ -216,12 +235,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(TbAnnotation.COLUMN_AUTHOR, annotation.getAuthor());
         cv.put(TbAnnotation.COLUMN_USERBOOKID, annotation.getUserBookId());
         long test = db.update(TbAnnotation.TABLE_NAME, cv, TbAnnotation.COLUMN_ID+"=?", new String[]{String.valueOf(annotation.getId())});
+        showMessage(test != -1 ? R.string.msg_anotacao_alterada : R.string.msg_erro_banco);
     }
 
     public void deleteAnnotation(String _id){
         SQLiteDatabase db = this.getWritableDatabase();
         long test = db.delete(TbAnnotation.TABLE_NAME, TbAnnotation.COLUMN_ID+"=?", new String[]{_id});
+        showMessage(test != -1 ? R.string.msg_anotacao_deletada : R.string.msg_erro_banco);
     }
 
-
+    public void showMessage(int message){
+        Toast.makeText(context,context.getResources().getString(message),Toast.LENGTH_LONG).show();
+    }
 }

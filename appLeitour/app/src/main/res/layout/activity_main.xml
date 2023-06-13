@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="@color/black"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:context=".Controller.MainActivity">
 
     <TextView
@@ -21,11 +21,11 @@
 
     <LinearLayout
         android:id="@+id/linear"
-        android:layout_below="@id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_below="@id/heading"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/requestTag"
@@ -43,7 +43,7 @@
             android:textColorHint="@color/gray"
             android:textSize="16sp" />
 
-        <ImageButton
+        <Button
             android:id="@+id/search_repository"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -52,12 +52,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:contentDescription="@string/app_name"
+            android:background="@drawable/search"
             android:onClick="searchBook"
             android:padding="10dp"
-            android:src="@drawable/search_icon_foreground"
-            android:background="@drawable/button_background"
-            />
+            android:src="@drawable/search" />
     </LinearLayout>
 
     <ListView
@@ -75,12 +73,11 @@
         android:id="@+id/errorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nothing found"
-        android:textColor="@color/black"
-        android:visibility="invisible"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_centerVertical="true"
+        android:text="@string/not_found"
+        android:textColor="@color/black"
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/loadingBar"

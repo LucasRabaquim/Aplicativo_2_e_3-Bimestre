@@ -119,4 +119,23 @@
     <string name="action_settings">Configurações</string>
     <string name="livros_salvos">Livros salvos</string>
     <string name="pesquisar_livros">Pesquisar\n</string>
+    <string name="configurations">Configurações</string>
+    <string name="not_found">Nada foi encontrado. Tente denovo</string>
+    <string name="username">Usuário: %1$s</string>
+    <string name="theme">Tema: %1$s</string>
+    <string name="theme_light">Claro: %1$s</string>
+    <string name="theme_dark">Escuro: %1$s</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="msg_salvo">O livro foi salvo</string>
+    <string name="usr_cadastrado">O usuário foi cadastrado</string>
+    <string name="usr_deslogado">O usuário foi deslogado</string>
+    <string name="msg_deletado">O livro foi deletado</string>
+    <string name="msg_anotacao_criada">A anotação foi criada</string>
+    <string name="msg_anotacao_deletada">A anotação foi deletada</string>
+    <string name="msg_anotacao_alterada">A anotação foi alterada</string>
+    <string name="msg_erro_banco">Operação falhou, tente novamente</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="hint_anotacao">Escreva uma anotação</string>
+
 </resources>

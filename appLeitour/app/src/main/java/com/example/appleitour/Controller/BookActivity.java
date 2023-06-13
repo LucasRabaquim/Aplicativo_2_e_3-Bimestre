@@ -1,12 +1,18 @@
 package com.example.appleitour.Controller;
 
+import static android.view.View.GONE;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,34 +54,27 @@ public class BookActivity extends AppCompatActivity {
         TextView language = findViewById(R.id.book_language);
         TextView pages = findViewById(R.id.book_pages);
 
-<<<<<<< HEAD
-        ImageView bookCover = findViewById(R.id.book_cover);
-        ImageView bookBackground = findViewById(R.id.book_background);
         title.setText(getResources().getString(R.string.name,book.getName()));
         author.setText(getResources().getString(R.string.author,book.getAuthor()));
         publisher.setText(getResources().getString(R.string.publisher,book.getPublisher()));
         year.setText(getResources().getString(R.string.year,book.getYear()));
+        isbn.setText(getResources().getString(R.string.isbn,book.getIsbn()));
+        edition.setText(getResources().getString(R.string.edition,book.getEdition()));
+        language.setText(getResources().getString(R.string.language,book.getLanguage()));
+        pages.setText(getResources().getString(R.string.pages,book.getPages()));
        /* if(!Objects.equals(book.getSinopse(), "-"))
             sinopse.setText(getResources().getString(R.string.sinopse,book.getSinopse()));*/
-        if(book.getIsbn() != 0)
-            isbn.setText(getResources().getString(R.string.isbn,book.getIsbn()));
-        if(book.getEdition() != 0)
-            edition.setText(getResources().getString(R.string.edition,book.getEdition()));
-        if(!Objects.equals(book.getLanguage(), "-"))
-            language.setText(getResources().getString(R.string.language,book.getLanguage()));
-        if(book.getPages() != 0)
-            pages.setText(getResources().getString(R.string.pages,book.getPages()));
-        Picasso.get().load(book.getCover()).into(bookCover);
-        Picasso.get().load(book.getCover()).into(bookBackground);
-=======
+        if(book.getIsbn() == 0)
+            isbn.setVisibility(GONE);
+        if(book.getEdition() == 0)
+            edition.setVisibility(GONE);
+        if(Objects.equals(book.getLanguage(), "-"))
+            language.setVisibility(GONE);
+        if(book.getPages() == 0)
+            pages.setVisibility(GONE);
+
         Picasso.get().load(book.getCover()).into(backgroundCover);
         Picasso.get().load(book.getCover()).into(bookCover);
-        title.setText(book.getName());
-        author.setText(book.getAuthor());
-        publisher.setText(book.getPublisher());
-        year.setText(book.getYear());
-        sinopse.setText(book.getSinopse());
->>>>>>> b5aecb31e881587ed62cdb104764d47bffbf0e11
 
         RecyclerView recyclerView = findViewById(R.id.recycler_annotation);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
@@ -84,7 +83,7 @@ public class BookActivity extends AppCompatActivity {
         if(!db.checkUserBook(book.getKey(), userId)) {
             btnCreate.setVisibility(View.VISIBLE);
             int userBookId = db.selectLastInsertBookId(book.getKey(), userId);
-            btnSave.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.saved));
+            changeIcon(R.color.yellow);
             ArrayList<Annotation> annotation = databaseHelper.selectAnnotations(userBookId);
             AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation,book);
             recyclerView.setAdapter(annotationAdapter);
@@ -100,22 +99,37 @@ public class BookActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), BookActivity.class);
+            intent.putExtra("Book",book);
+            int userBookId = db.selectLastInsertBookId(book.getKey(), userId);
+            intent.putExtra("UserBook",userBookId);
             if(db.checkBookIsStored(book.getKey())) {// Se o livro nao estiver no banco, salva
                 db.insertBook(book);
                 db.insertUserBook(book.getKey(),userId);
-                btnSave.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.saved));
+                changeIcon(R.color.yellow);
+                startActivity(intent);
+                finish();
             }
             else if(db.checkUserBook(book.getKey(), userId)){// Se ele ta no banco, mas não salvei ele, salva pra mim
                 db.insertUserBook(book.getKey(),userId);
-                btnSave.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.saved));
+                changeIcon(R.color.yellow);
+                startActivity(intent);
+                finish();
             }
             else { // Se ele esta no banco e eu salvei ele, cliquei denovo porque quero apagar
                 db.deleteUserBook(book.getKey(),userId);
-                btnSave.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.tosave));
+                changeIcon(R.color.black);
+                startActivity(intent);
+                finish();
             }
             if(db.checkBookIsSaved(book.getKey())){ // Se o livro nao tiver sido salvo por nenhum usuario, apaga do banco
                 db.deleteBook(book.getKey());
             }
         });
+    }
+    void changeIcon(int color){
+        Drawable unwrappedDrawable = AppCompatResources.getDrawable(getApplicationContext(), R.drawable.save);
+        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
+        DrawableCompat.setTint(wrappedDrawable, getResources().getColor(color,getTheme()));
     }
 }
