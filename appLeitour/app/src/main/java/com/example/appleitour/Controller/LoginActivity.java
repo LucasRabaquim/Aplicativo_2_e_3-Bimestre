@@ -1,7 +1,6 @@
 package com.example.appleitour.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,9 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.appleitour.Database.DatabaseHelper;
-import com.example.appleitour.Model.User;
 import com.example.appleitour.R;
 
 public class LoginActivity extends AppCompatActivity {

@@ -1,14 +1,4 @@
 package com.example.appleitour.Database;
-
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.example.appleitour.Model.Annotation;
-import com.example.appleitour.Model.UserBook;
-
-import java.util.ArrayList;
-
 public class TbAnnotation {
     public static final String TABLE_NAME = "tbAnnotation";
     public static final String COLUMN_ID= "_Id";

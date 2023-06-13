@@ -82,7 +82,7 @@ public class BookActivity extends AppCompatActivity {
         int userId = settings.getInt("UserId", 0);
         if(!db.checkUserBook(book.getKey(), userId)) {
             btnCreate.setVisibility(View.VISIBLE);
-            int userBookId = db.selectLastInsertBookId(book.getKey(), userId);
+            int userBookId = db.selectBookId(book.getKey(), userId);
             changeIcon(R.color.yellow);
             ArrayList<Annotation> annotation = databaseHelper.selectAnnotations(userBookId);
             AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation,book);
@@ -92,7 +92,7 @@ public class BookActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
             intent.putExtra("Book",book);
-            int userBookId = db.selectLastInsertBookId(book.getKey(), userId);
+            int userBookId = db.selectBookId(book.getKey(), userId);
             intent.putExtra("UserBook",userBookId);
             startActivity(intent);
             finish();
@@ -101,7 +101,7 @@ public class BookActivity extends AppCompatActivity {
         btnSave.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), BookActivity.class);
             intent.putExtra("Book",book);
-            int userBookId = db.selectLastInsertBookId(book.getKey(), userId);
+            int userBookId = db.selectBookId(book.getKey(), userId);
             intent.putExtra("UserBook",userBookId);
             if(db.checkBookIsStored(book.getKey())) {// Se o livro nao estiver no banco, salva
                 db.insertBook(book);
