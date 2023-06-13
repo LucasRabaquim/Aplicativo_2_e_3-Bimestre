@@ -54,17 +54,18 @@ public class BookActivity extends AppCompatActivity {
         TextView language = findViewById(R.id.book_language);
         TextView pages = findViewById(R.id.book_pages);
 
-        title.setText(getResources().getString(R.string.name,book.getName()));
-        author.setText(getResources().getString(R.string.author,book.getAuthor()));
-        publisher.setText(getResources().getString(R.string.publisher,book.getPublisher()));
-        year.setText(getResources().getString(R.string.year,book.getYear()));
-        isbn.setText(getResources().getString(R.string.isbn,book.getIsbn()));
-        edition.setText(getResources().getString(R.string.edition,book.getEdition()));
-        language.setText(getResources().getString(R.string.language,book.getLanguage()));
-        pages.setText(getResources().getString(R.string.pages,book.getPages()));
+        title.setText(book.getName());
+        author.setText(book.getAuthor());
+        publisher.setText(book.getPublisher());
+        year.setText(String.valueOf(book.getYear()));
+        isbn.setText(book.getIsbn());
+        edition.setText(String.valueOf(book.getEdition()));
+        language.setText(book.getLanguage());
+        pages.setText(String.valueOf(book.getPages()));
+
        /* if(!Objects.equals(book.getSinopse(), "-"))
             sinopse.setText(getResources().getString(R.string.sinopse,book.getSinopse()));*/
-        if(book.getIsbn() == 0)
+        if(book.getIsbn() == "")
             isbn.setVisibility(GONE);
         if(book.getEdition() == 0)
             edition.setVisibility(GONE);

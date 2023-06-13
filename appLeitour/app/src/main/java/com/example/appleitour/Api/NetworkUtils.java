@@ -89,9 +89,9 @@ public class NetworkUtils {
                 }
 
                 JSONArray isbnArray = currentBook.getJSONArray("isbn");
-                int bookIsbn = 0;
+                String bookIsbn = "";
                 if (isbnArray.length() > 0) {
-                    bookIsbn = isbnArray.getInt(0);
+                    bookIsbn = isbnArray.getString(0);
                 }
 
                 JSONArray authorArray = currentBook.getJSONArray("author_name");

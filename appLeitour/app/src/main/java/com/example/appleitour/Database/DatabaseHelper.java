@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 book.setKey(cursor.getString(0));
                 if(this.selectBookId(book.getKey(), userId) == 0)
                    continue;
-                book.setIsbn(cursor.getInt(1));
+                book.setIsbn(cursor.getString(1));
                 book.setName(cursor.getString(2));
                 book.setAuthor(cursor.getString(3));
                 book.setPublisher(cursor.getString(4));
