@@ -25,7 +25,8 @@
     <string name="btn_salvar">Salvar</string>
     <string name="btn_nao_tem_conta">Não tem conta? Cadastrar</string>
     <string name="btn_tem_conta">Tem uma conta? Login</string>
-
+    <string name="appwidget_text">Leitour</string>
+    <string name="add_widget">Add widget</string>
     <string name="title_activity_main_quotes">mainQuotes</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

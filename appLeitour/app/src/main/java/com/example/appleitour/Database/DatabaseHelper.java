@@ -257,4 +257,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void showMessage(int message){
         Toast.makeText(context,context.getResources().getString(message),Toast.LENGTH_LONG).show();
     }
+
+    public Book selectBookById(int bookId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TbBook.TABLE_NAME + " WHERE " +
+                TbBook.COLUMN_ID + " =?";
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, new String[]{String.valueOf(bookId)});
+        }
+        if (cursor != null && cursor.moveToFirst()) {
+            Book book = new Book();
+            book.setKey(cursor.getString(0));
+            book.setIsbn(cursor.getString(1));
+            book.setName(cursor.getString(2));
+            book.setAuthor(cursor.getString(3));
+            book.setPublisher(cursor.getString(4));
+            book.setPages(cursor.getInt(5));
+            book.setEdition(cursor.getInt(6));
+            book.setCover(cursor.getString(7));
+            book.setSinopse(cursor.getString(8));
+            book.setYear(cursor.getString(9));
+            book.setLanguage(cursor.getString(10));
+            cursor.close();
+            return book;
+        }
+        return null;
+    }
+
+
+    private String getLastInsertedTitle(Context context) {
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        int lastInsertedId = databaseHelper.selectLastInsert();
+        Book lastInsertedBook = databaseHelper.selectBookById(lastInsertedId);
+        if (lastInsertedBook != null) {
+            return lastInsertedBook.getName();
+        }
+        return "";
+    }
+
 }
