@@ -72,13 +72,4 @@ public class Book implements Serializable {
     public void setYear(String year){this.year = year;}
     public String getYear(){return this.year;}
 
-    public void debug(int userBook){
-        Log.d("BOOK DEBUG ","============================");
-        Log.d("Key",this.key);
-        Log.d("Name",this.name);
-        Log.d("USER BOOK ID",String.valueOf(userBook));
-    }
-
-
-
 }

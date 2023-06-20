@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.appleitour.Database.DatabaseHelper;
 import com.example.appleitour.Model.User;
@@ -33,6 +34,10 @@ public class CadastrarActivity extends AppCompatActivity {
             User user = new User(nome,email,senha,(byte)0,1);
             DatabaseHelper db = new DatabaseHelper(getApplicationContext());
             db.getWritableDatabase();
+            if(db.verificarUsuarioCadastrado(email)){
+                Toast.makeText(getApplicationContext(),"Usuário já cadastrado",Toast.LENGTH_SHORT).show();
+                return;
+            }
             db.insertUser(user);
             SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
             SharedPreferences.Editor editor = settings.edit();

@@ -1,21 +1,23 @@
 package com.example.appleitour.Database;
 
-public class TbBook {
-    public static final String TABLE_NAME = "tbBook";
-    public static final String COLUMN_ID = "bookKey";
+interface TbBook {
 
-    public static final String COLUMN_ISBN = "isbn";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_AUTHOR = "author";
-    public static final String COLUMN_PUBLISHER = "publisher";
-    public static final String COLUMN_PAGES = "pages";
-    public static final String COLUMN_EDITION = "edition";
-    public static final String COLUMN_COVER = "cover";
-    public static final String COLUMN_SINOPSE = "sinopse";
-    public static final String COLUMN_YEAR = "year";
-    public static final String COLUMN_LANGUAGE = "_language";
+    // Interface com os campos e query de criação da tabela TbBook
 
-    public static final String QUERY = "CREATE TABLE " + TABLE_NAME + "(" +
+    String TABLE_NAME = "tbBook";
+    String COLUMN_ID = "bookKey";
+    String COLUMN_ISBN = "isbn";
+    String COLUMN_NAME = "name";
+    String COLUMN_AUTHOR = "author";
+    String COLUMN_PUBLISHER = "publisher";
+    String COLUMN_PAGES = "pages";
+    String COLUMN_EDITION = "edition";
+    String COLUMN_COVER = "cover";
+    String COLUMN_SINOPSE = "sinopse";
+    String COLUMN_YEAR = "year";
+    String COLUMN_LANGUAGE = "_language";
+
+    String QUERY = "CREATE TABLE " + TABLE_NAME + "(" +
             "   " + COLUMN_ID + " TEXT PRIMARY KEY," +
             "   " + COLUMN_ISBN + " INTEGER," +
             "   " + COLUMN_NAME + " TEXT NOT NULL," +

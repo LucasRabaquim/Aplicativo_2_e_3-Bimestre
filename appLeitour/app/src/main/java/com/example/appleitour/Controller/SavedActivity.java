@@ -35,7 +35,6 @@ public class SavedActivity extends AppCompatActivity {
         recyclerView.setAdapter(savedAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Intent intent;

@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
             String senha = editSenha.getText().toString();
             DatabaseHelper db = new DatabaseHelper(getApplicationContext());
             db.getReadableDatabase();
-            if(db.verificarUsuarioCadastrado(email,senha)){
+            if(db.retornarUsuarioCadastrado(email,senha) != 0){
                 SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt("UserId",db.retornarUsuarioCadastrado(email,senha));

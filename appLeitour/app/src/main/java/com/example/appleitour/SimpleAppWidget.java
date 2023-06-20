@@ -5,14 +5,11 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.RemoteViews;
-
-import com.example.appleitour.Controller.BookActivity;
 import com.example.appleitour.Controller.SavedActivity;
 import com.example.appleitour.Database.DatabaseHelper;
-import com.example.appleitour.Model.Book;
-import com.example.appleitour.R;
-import com.squareup.picasso.Picasso;
+import java.util.Objects;
 
 public class SimpleAppWidget extends AppWidgetProvider {
 
@@ -30,11 +27,10 @@ public class SimpleAppWidget extends AppWidgetProvider {
 
         views.setTextViewText(R.id.tvWidget, lastInsertedCoverUrl);
 
-
-        //manda pra saved
+        // manda o usuário pra savedActivity
         Intent intent = new Intent(context, SavedActivity.class);
         context.startActivity(intent);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         views.setOnClickPendingIntent(R.id.tvWidget, pendingIntent);
 
@@ -43,11 +39,9 @@ public class SimpleAppWidget extends AppWidgetProvider {
 
     private String getLastInsertedCoverUrl(Context context) {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
-        int lastInsertedId = databaseHelper.selectLastInsert();
-        Book book = databaseHelper.selectBookById(lastInsertedId);
-        if (book != null) {
-            return book.getCover();
-        }
-        return "";
+        SharedPreferences settings = context.getSharedPreferences("com.example.appleitour", 0);
+        int userId = settings.getInt("UserId", 0);
+        String bookCover = databaseHelper.selectRandomCover(userId);
+        return Objects.requireNonNullElse(bookCover, "");
     }
 }

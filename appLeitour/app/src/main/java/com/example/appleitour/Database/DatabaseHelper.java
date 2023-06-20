@@ -1,8 +1,11 @@
 package com.example.appleitour.Database;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -14,6 +17,7 @@ import androidx.annotation.Nullable;
 import com.example.appleitour.Model.*;
 import com.example.appleitour.Model.Book;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     Context context;
@@ -63,7 +67,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Book book = new Book();
                 book.setKey(cursor.getString(0));
                 if(this.selectBookId(book.getKey(), userId) == 0)
-                   continue;
+                   continue; // Se o livro estiver salvo, mas não tem relação com o usuário atual,
+                // ele ignora na hora de adicionar ao array
                 book.setIsbn(cursor.getString(1));
                 book.setName(cursor.getString(2));
                 book.setAuthor(cursor.getString(3));
@@ -75,11 +80,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 book.setYear(cursor.getString(9));
                 book.setLanguage(cursor.getString(10));
                 books.add(book);
-                book.debug(this.selectBookId(book.getKey(), userId));
             }
             
         }
         return books;
+    }
+
+    public String selectRandomCover(int userId){
+        String query =" SELECT * FROM " + TbBook.TABLE_NAME ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null)
+            cursor = db.rawQuery(query, null);
+        if(cursor != null && cursor.getCount() >= 0) {
+            Random rand = new Random();
+            int id = rand.nextInt(cursor.getCount());
+            cursor.moveToPosition(id);
+            return cursor.getString(7);
+        }
+        return "";
     }
     public boolean checkBookIsStored(String bookId){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -129,13 +148,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         
         return cursor.getInt(0);
     }
-    public boolean verificarUsuarioCadastrado(String email, String senha){
+    public boolean verificarUsuarioCadastrado(String email){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "Select * from " + TbUser.TABLE_NAME + " where " +
-                TbUser.COLUMN_EMAIL + " =? " + " AND " + TbUser.COLUMN_PASSWORD + " =? ";
+                TbUser.COLUMN_EMAIL + " =?";
         Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery(query, new String[]{email,senha});
+            cursor = db.rawQuery(query, new String[]{email});
             
         }
         return cursor.getCount() > 0;
@@ -185,7 +204,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
         if(db != null){
             cursor = db.rawQuery(query, new String[]{bookId,String.valueOf(userId)});
-            
         }
         if(cursor != null){
             cursor.moveToFirst();

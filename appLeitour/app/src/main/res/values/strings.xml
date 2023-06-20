@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">appLeitour</string>
+    <string name="app_name">Leitour</string>
     <string name="placeholder">placeholder</string>
     <string name="txtuser">Nome de usuário</string>
     <string name="txtemail">Email</string>
@@ -15,18 +15,26 @@
     <string name="publisher">Editora: %1$s</string>
     <string name="author">Autor: %1$s</string>
     <string name="year">Ano: %1$s</string>
-    <string name="isbn">Isbn: %1$d</string>
+    <string name="isbn">Isbn: %1$s</string>
     <string name="edition">Edição: %1$d</string>
     <string name="pages">Paginas: %1$d</string>
     <string name="sinopse">Sinopse: %1$s</string>
     <string name="pesquisar">Pesquisar</string>
     <string name="btn_alterar">Alterar</string>
     <string name="btn_excluir">Excluir</string>
+    <string name="dialog_title">Atenção</string>
+    <string name="dialog_excluir">Deseja mesmo excluir essa anotação?</string>
+    <string name="dialog_unsave">Deseja mesmo excluir esse livro?</string>
+    <string name="dialog_option_yes">Sim</string>
+    <string name="dialog_option_no">Cancelar</string>
+    <string name="dialog_result_no">Operação cancelada</string>
+
+
     <string name="btn_salvar">Salvar</string>
     <string name="btn_nao_tem_conta">Não tem conta? Cadastrar</string>
     <string name="btn_tem_conta">Tem uma conta? Login</string>
     <string name="appwidget_text">Leitour</string>
-    <string name="add_widget">Add widget</string>
+    <string name="add_widget">Adicionar widget</string>
     <string name="title_activity_main_quotes">mainQuotes</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -138,5 +146,7 @@
     <string name="msg_erro_banco">Operação falhou, tente novamente</string>
     <string name="cancelar">Cancelar</string>
     <string name="hint_anotacao">Escreva uma anotação</string>
+    <string name="user">Sair</string>
+    <string name="sair">sair</string>
 
 </resources>

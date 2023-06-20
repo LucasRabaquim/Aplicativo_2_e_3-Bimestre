@@ -13,8 +13,8 @@
             android:icon="@drawable/search"
             android:title="@string/pesquisar_livros" />
         <item
-            android:id="@+id/nav_configuration"
-            android:icon="@drawable/configuration"
-            android:title="@string/configurations" />
+            android:id="@+id/nav_sair"
+            android:icon="@drawable/sair"
+            android:title="@string/sair" />
     </group>
 </menu>

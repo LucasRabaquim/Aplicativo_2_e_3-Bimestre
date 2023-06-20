@@ -9,14 +9,18 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.appleitour.Adapter.AnnotationAdapter;
 import com.example.appleitour.Database.DatabaseHelper;
@@ -54,18 +58,19 @@ public class BookActivity extends AppCompatActivity {
         TextView language = findViewById(R.id.book_language);
         TextView pages = findViewById(R.id.book_pages);
 
+        Resources res = getResources();
         title.setText(book.getName());
-        author.setText(book.getAuthor());
-        publisher.setText(book.getPublisher());
-        year.setText(String.valueOf(book.getYear()));
-        isbn.setText(book.getIsbn());
-        edition.setText(String.valueOf(book.getEdition()));
-        language.setText(book.getLanguage());
-        pages.setText(String.valueOf(book.getPages()));
+        author.setText(res.getString(R.string.author,book.getAuthor()));
+        publisher.setText(res.getString(R.string.publisher,book.getPublisher()));
+        year.setText(res.getString(R.string.year,String.valueOf(book.getYear())));
+        isbn.setText(res.getString(R.string.isbn,book.getIsbn()));
+        edition.setText(res.getString(R.string.edition,book.getEdition()));
+        language.setText(res.getString(R.string.language,book.getLanguage()));
+        pages.setText(res.getString(R.string.pages,book.getPages()));
 
        /* if(!Objects.equals(book.getSinopse(), "-"))
             sinopse.setText(getResources().getString(R.string.sinopse,book.getSinopse()));*/
-        if(book.getIsbn() == "")
+        if(Objects.equals(book.getIsbn(), ""))
             isbn.setVisibility(GONE);
         if(book.getEdition() == 0)
             edition.setVisibility(GONE);
@@ -117,13 +122,21 @@ public class BookActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-            else { // Se ele esta no banco e eu salvei ele, cliquei denovo porque quero apagar
-                db.deleteUserBook(book.getKey(),userId);
-                changeIcon(R.color.black);
-                startActivity(intent);
-                finish();
+            else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(res.getString(R.string.dialog_title));
+                builder.setMessage(res.getString(R.string.dialog_unsave));
+                builder.setPositiveButton(res.getString(R.string.dialog_option_yes), (dialogInterface, i) -> {
+                    db.deleteUserBook(book.getKey(),userId);
+                    startActivity(new Intent(getApplicationContext(), SavedActivity.class));
+                    finish();
+                });
+                builder.setNegativeButton(res.getString(R.string.dialog_option_no), (dialogInterface, i) ->
+                    Toast.makeText(this,res.getString(R.string.dialog_result_no),Toast.LENGTH_LONG).show()
+                );
+                builder.create().show();
             }
-            if(db.checkBookIsSaved(book.getKey())){ // Se o livro nao tiver sido salvo por nenhum usuario, apaga do banco
+            if(db.checkBookIsSaved(book.getKey())){
                 db.deleteBook(book.getKey());
             }
         });

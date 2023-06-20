@@ -5,8 +5,10 @@ import static android.content.Intent.getIntent;
 import static androidx.core.app.ActivityCompat.recreate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,12 +78,22 @@ public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.Vi
             context.startActivity(intent);
         });
         holder.btnDelete.setOnClickListener(view -> {
-            DatabaseHelper db = new DatabaseHelper(view.getContext());
-            db.getWritableDatabase();
-            db.deleteAnnotation(String.valueOf(annotation.getId()));
-            Intent intent = new Intent(context.getApplicationContext(), BookActivity.class);
-            intent.putExtra("Book",book);
-            context.startActivity(intent);
+            Resources res = context.getResources();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(res.getString(R.string.dialog_title));
+            builder.setMessage(res.getString(R.string.dialog_excluir));
+            builder.setPositiveButton(res.getString(R.string.dialog_option_yes), (dialogInterface, i) -> {
+                DatabaseHelper db = new DatabaseHelper(view.getContext());
+                db.getWritableDatabase();
+                db.deleteAnnotation(String.valueOf(annotation.getId()));
+                Intent intent = new Intent(context.getApplicationContext(), BookActivity.class);
+                intent.putExtra("Book",book);
+                context.startActivity(intent);
+            });
+            builder.setNegativeButton(res.getString(R.string.dialog_option_no), (dialogInterface, i) ->
+                    Toast.makeText(context,res.getString(R.string.dialog_result_no),Toast.LENGTH_LONG).show()
+            );
+            builder.create().show();
         });
     }
 
