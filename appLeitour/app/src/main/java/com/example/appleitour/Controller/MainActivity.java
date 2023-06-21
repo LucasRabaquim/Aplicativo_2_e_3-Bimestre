@@ -7,6 +7,8 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
 import android.annotation.SuppressLint;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -20,6 +22,7 @@ import com.example.appleitour.Adapter.BookAdapter;
 import com.example.appleitour.Api.NetworkUtils;
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
+import com.example.appleitour.SimpleAppWidget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.io.IOException;
 import java.util.List;
@@ -48,6 +51,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         adapter = new BookAdapter(getApplicationContext());
         dataListView.setAdapter((adapter));
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+        // Obtém os IDs dos widgets do seu app
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, SimpleAppWidget.class));
+
+        // Atualiza os widgets
+        if (appWidgetIds != null && appWidgetIds.length > 0) {
+            SimpleAppWidget simpleAppWidget = new SimpleAppWidget();
+            simpleAppWidget.onUpdate(this, appWidgetManager, appWidgetIds);
+        }
 
         dataListView.setOnItemClickListener((adapterView, view, i, l) -> {
             Book book = (Book) adapterView.getItemAtPosition(i);

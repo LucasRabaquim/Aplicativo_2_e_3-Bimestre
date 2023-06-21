@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import com.example.appleitour.Adapter.SavedAdapter;
 import com.example.appleitour.Database.DatabaseHelper;
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
+import com.example.appleitour.SimpleAppWidget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -24,6 +27,17 @@ public class SavedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+        // Obtém os IDs dos widgets do seu app
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, SimpleAppWidget.class));
+
+        // Atualiza os widgets
+        if (appWidgetIds != null && appWidgetIds.length > 0) {
+            SimpleAppWidget simpleAppWidget = new SimpleAppWidget();
+            simpleAppWidget.onUpdate(this, appWidgetManager, appWidgetIds);
+        }
 
         recyclerView = findViewById(R.id.recycler_saved_book);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());

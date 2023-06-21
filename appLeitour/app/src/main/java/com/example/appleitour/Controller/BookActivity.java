@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -27,6 +29,7 @@ import com.example.appleitour.Database.DatabaseHelper;
 import com.example.appleitour.Model.Annotation;
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
+import com.example.appleitour.SimpleAppWidget;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -42,6 +45,17 @@ public class BookActivity extends AppCompatActivity {
         FloatingActionButton btnSave = findViewById(R.id.btn_save_book);
         FloatingActionButton btnCreate = findViewById(R.id.btn_create_annotation);
         btnCreate.setVisibility(View.INVISIBLE);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+        // Obtém os IDs dos widgets do seu app
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, SimpleAppWidget.class));
+
+        // Atualiza os widgets
+        if (appWidgetIds != null && appWidgetIds.length > 0) {
+            SimpleAppWidget simpleAppWidget = new SimpleAppWidget();
+            simpleAppWidget.onUpdate(this, appWidgetManager, appWidgetIds);
+        }
 
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         db.getReadableDatabase();

@@ -3,6 +3,7 @@ package com.example.appleitour;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,11 +44,10 @@ public class SimpleAppWidget extends AppWidgetProvider {
             views.setTextViewText(R.id.bookDate, "Ano: " + randomBook.getYear());
         }
 
-        // manda o usuário pra savedActivity
+        // Manda o usuário para SavedActivity
         Intent intent = new Intent(context, SavedActivity.class);
-        //context.startActivity(intent);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         views.setOnClickPendingIntent(R.id.layoutWidget, pendingIntent);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
