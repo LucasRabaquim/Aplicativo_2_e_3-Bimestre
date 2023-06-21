@@ -2,9 +2,12 @@ package com.example.appleitour.Database;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.appleitour.Model.*;
 import com.example.appleitour.Model.Book;
+import com.example.appleitour.SimpleAppWidget;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -54,6 +59,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TbBook.COLUMN_YEAR, book.getYear());
         contentValues.put(TbBook.COLUMN_LANGUAGE, book.getLanguage());
         db.insert(TbBook.TABLE_NAME,null, contentValues);
+
+        Intent intent = new Intent(context, SimpleAppWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(new ComponentName(context, SimpleAppWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
     }
     public ArrayList<Book> selectBooks(int userId){
         String query =" SELECT * FROM " + TbBook.TABLE_NAME ;
@@ -86,19 +98,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return books;
     }
 
-    public String selectRandomCover(int userId){
+    public Book selectRandomBook(int userId){
         String query =" SELECT * FROM " + TbBook.TABLE_NAME ;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        if(db != null)
-            cursor = db.rawQuery(query, null);
-        if(cursor != null && cursor.getCount() >= 0) {
-            Random rand = new Random();
-            int id = rand.nextInt(cursor.getCount());
-            cursor.moveToPosition(id);
-            return cursor.getString(7);
-        }
-        return "";
+        ArrayList<Book> books = this.selectBooks(userId);
+        if(books == null || books.size() == 0)
+            return null;
+        Random rand = new Random();
+        int id = rand.nextInt(books.size());
+        return books.get(id);
     }
     public boolean checkBookIsStored(String bookId){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -308,9 +315,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         int lastInsertedId = databaseHelper.selectLastInsert();
         Book lastInsertedBook = databaseHelper.selectBookById(lastInsertedId);
-        if (lastInsertedBook != null) {
+        if (lastInsertedBook != null)
             return lastInsertedBook.getName();
-        }
+
         return "";
     }
 

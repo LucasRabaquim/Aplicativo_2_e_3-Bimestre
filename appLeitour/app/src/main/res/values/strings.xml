@@ -148,5 +148,6 @@
     <string name="hint_anotacao">Escreva uma anotação</string>
     <string name="user">Sair</string>
     <string name="sair">sair</string>
+    <string name="widgetnobook">Não há livros registrados</string>
 
 </resources>

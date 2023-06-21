@@ -1,18 +1,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/layoutWidget"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvWidget"
+        android:id="@+id/bookName"
+        android:text=""
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/bookAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/author"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/bookEditora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/publisher"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/book_publisher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/publisher"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/bookDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/year"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/widgetNoBook"
+        android:text="@string/widgetnobook"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:background="#ff6200"
-        android:contentDescription="@string/appwidget_text"
-        android:gravity="center"
-        android:text="@string/appwidget_text"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic"/>
+        android:visibility="visible"
+        android:gravity="center"/>
 
 </LinearLayout>

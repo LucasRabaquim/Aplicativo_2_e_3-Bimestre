@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt("UserId",db.retornarUsuarioCadastrado(email,senha));
+                editor.putInt("LastUser",db.retornarUsuarioCadastrado(email,senha));
                 editor.putBoolean("keepLogged",keepLogged.isChecked());
                 editor.apply();
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
