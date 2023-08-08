@@ -16,11 +16,13 @@
 
 
 <h2>MER da API interna</h2>
+
 ![MER](https://github.com/LucasRabaquim/Leitour/assets/98958822/1a471202-ad97-4d09-8093-a98fda8f7aca)
 
 
 
 <h2>Diagrama de classe da API interna</h2>
+
 ![Diagrama de classe API](https://github.com/LucasRabaquim/Leitour/assets/98958822/4cfac986-672c-4c32-9000-f773e5724b60)
 
 
