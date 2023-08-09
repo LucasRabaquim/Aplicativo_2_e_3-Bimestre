@@ -6,7 +6,7 @@
 <h2>API externa: <a href="https://openlibrary.org/dev/docs/restful_api">Open Library</a></h2>
 Documentação da API (externa) a ser usada no app Leitour: https://github.com/LucasRabaquim/Leitour/wiki
 
-<h1>Novidades da vesão 3° Bimestre:</h1>
+<h1>Novidades da versão 3° Bimestre:</h1>
 <ul>
  <li>Criação (criação, alteração e exclusão) postagens na página principal ou páginas sobre livros específicos</li>
  <li>Criação (criação, alteração e exclusão) de Páginas sobre livros selecionados pelo usuário que criou a página, a fim de organizar a discussão sobre livros</li>
