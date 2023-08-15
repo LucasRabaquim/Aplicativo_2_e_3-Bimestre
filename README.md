@@ -14,6 +14,13 @@ Documentação da API (externa) a ser usada no app Leitour: https://github.com/L
  <li>Possibilidade de seguir páginas que o usuário gostar</li>
 </ul>
 
+<h2>DER da API interna</h2>
+
+![DER API (1)](https://github.com/LucasRabaquim/Leitour/assets/98958822/250b9280-e825-41b9-b2e0-d28508c239c0)
+
+
+
+
 
 <h2>MER da API interna</h2>
 
@@ -27,6 +34,6 @@ Documentação da API (externa) a ser usada no app Leitour: https://github.com/L
 
 
 <br><br>
-<s>Funcionamento 2°Bimestre https://youtu.be/ReTAWTNHmTA
-Dupla 2°Bimestre: Lauan Aparecido De Sousa Amorim e Lucas Daniel da Costa Rabaquim</s>
+Funcionamento 2°Bimestre https://youtu.be/ReTAWTNHmTA<br>
+Dupla 2°Bimestre: Lauan Aparecido De Sousa Amorim e Lucas Daniel da Costa Rabaquim
 
