@@ -1,54 +1,46 @@
 package com.example.appleitour.Controller;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.example.appleitour.Database.DatabaseHelper;
-import com.example.appleitour.Model.User;
+import com.example.appleitour.Api.NetWorkUtils.NetworkUtils;
+import com.example.appleitour.Model.ViewUtilities;
 import com.example.appleitour.R;
 
-public class CadastrarActivity extends AppCompatActivity {
+public class CadastrarActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar);
-        EditText editNome = findViewById(R.id.edit_cadastro_username);
-        EditText editEmail = findViewById(R.id.edit_cadastro_email);
-        EditText editSenha = findViewById(R.id.edit_cadastro_password);
-        Button btnCadastrar = findViewById(R.id.btn_cadastrar);
+        Button btnSignUp = findViewById(R.id.btn_cadastrar);
+        TextView btnSignIn = findViewById(R.id.txt_tem_conta);
 
-        btnCadastrar.setOnClickListener(view -> {
-            String nome = editNome.getText().toString().trim();
-            String email = editEmail.getText().toString().trim();
-            String senha = editSenha.getText().toString().trim();
+        ViewUtilities viewUtilities = new ViewUtilities();
+        NetworkUtils http = new NetworkUtils();
+/*
+        btnSignUp.setOnClickListener(view -> {
+            String nome = viewUtilities.GetTextFromEditView(R.id.edit_cadastro_username);
+            String email = viewUtilities.GetTextFromEditView(R.id.edit_cadastro_email);
+            String senha = viewUtilities.GetTextFromEditView(R.id.edit_cadastro_password);
             CheckBox keepLogged = findViewById(R.id.checkbox_lembrarLogin2);
-            User user = new User(nome,email,senha,(byte)0,1);
-            DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-            db.getWritableDatabase();
-            if(db.verificarUsuarioCadastrado(email)){
-                Toast.makeText(getApplicationContext(),"Usuário já cadastrado",Toast.LENGTH_SHORT).show();
-                return;
+            User user = new User(nome,email,senha);
+
+            try{
+                String usu = http.ObjectToString(user);
+                URL url = http.buildUrl("User/Login");
+                String result = http.HttpSign(url,http.POST,usu);
+                viewUtilities.SetTextToEditView(R.id.edit_cadastro_username,nome);
             }
-            db.insertUser(user);
-            SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("UserId",db.selectLastInsert());
-            editor.putInt("LastUser",db.selectLastInsert());
-            editor.putBoolean("keepLogged",keepLogged.isChecked());
-            editor.apply();
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-            finish();
-            startActivity(intent);
-        });
-        findViewById(R.id.txt_tem_conta).setOnClickListener(view -> {startActivity(new Intent(getApplicationContext(),LoginActivity.class));});
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });*/
+        btnSignIn.setOnClickListener(view ->
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class)));
     }
 }

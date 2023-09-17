@@ -1,11 +1,5 @@
 package com.example.appleitour.Controller;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.AsyncTaskLoader;
-import androidx.loader.content.Loader;
 import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -16,14 +10,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
+
 import com.example.appleitour.Adapter.BookAdapter;
-import com.example.appleitour.Api.NetworkUtils;
+import com.example.appleitour.Api.OpenLibraryUtils;
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
 import com.example.appleitour.SimpleAppWidget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String searchQueryUrlString = args.getString(BOOK_QUERY_TAG);
 
                 try {
-                    return NetworkUtils.getDataFromApi(searchQueryUrlString);
+                    return OpenLibraryUtils.getDataFromApi(searchQueryUrlString);
                 } catch (IOException e) {
                     e.printStackTrace();
                     return null;

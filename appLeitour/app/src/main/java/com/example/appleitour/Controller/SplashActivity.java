@@ -1,15 +1,13 @@
 package com.example.appleitour.Controller;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appleitour.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,17 +15,15 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         finish();
-
-        SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
-        int Theme = settings.getInt("Theme", AppCompatDelegate.MODE_NIGHT_NO);
-        AppCompatDelegate.setDefaultNightMode(Theme);
-        boolean keepLogged = settings.getBoolean("keepLogged", false);
+       // SharedSettings shared = new SharedSettings();
+       // shared.ApplyTheme(shared.GetTheme());
+        /*boolean keepLogged = shared.GetKeepLogged();
         if(keepLogged)
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
-        else
-            if(settings.getInt("userId", 0) == 0)
-                startActivity(new Intent(getApplicationContext(),CadastrarActivity.class));
-            else
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        else{*/
+            //shared.SetToken(null);
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+       // }
     }
+
 }

@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class NetworkUtils {
-    private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
+public class OpenLibraryUtils {
+    private static final String LOG_TAG = OpenLibraryUtils.class.getSimpleName();
     private static final String API_URL = "https://openlibrary.org/search.json";
     private static final String QUERY_PARAM = "q";
     private static final String MODE = "mode";

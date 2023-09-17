@@ -137,11 +137,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertUser(@NonNull User user){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TbUser.COLUMN_NAME, user.getName());
+        contentValues.put(TbUser.COLUMN_NAME, user.getNameUser());
         contentValues.put(TbUser.COLUMN_EMAIL, user.getEmail());
         contentValues.put(TbUser.COLUMN_PASSWORD, user.getPassword());
         contentValues.put(TbUser.COLUMN_PHOTO, user.getPhoto());
-        contentValues.put(TbUser.COLUMN_COLOR, user.getColor());
+        contentValues.put(TbUser.COLUMN_COLOR, user.getTheme());
         db.insert(TbUser.TABLE_NAME,null, contentValues);
     }
 
