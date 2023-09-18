@@ -85,7 +85,6 @@ public class NetworkUtils {
             InputStream inputStream = httpResponse.getEntity().getContent();
             if(inputStream != null){
                 Log.d("Valor", "HttpGet: "+ ReadResponse(inputStream));
-
                 return ReadResponse(inputStream);
             }
             else
