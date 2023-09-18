@@ -1,5 +1,7 @@
 package com.example.appleitour.Api.NetWorkUtils;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.apache.http.HttpResponse;
@@ -27,6 +29,7 @@ public class NetworkUtils {
     public static final String POST = "POST";
     public static final String PUT = "UPDATE";
     public static final String DELETE = "DELETE";
+    public static final String AUTO_LOGIN = "AUTO_LOGIN";
     public static String buildUrl(String path) {
         String buildURI = API_URL + path;
         return buildURI;
@@ -61,6 +64,30 @@ public class NetworkUtils {
             InputStream inputStream = httpResponse.getEntity().getContent();
             if(inputStream != null)
                 return ReadResponse(inputStream);
+            else
+                return "";
+        } catch (ClientProtocolException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String HttpAutoLogin (String stringUrl, String token) throws URISyntaxException, UnsupportedEncodingException {
+        URI url = new URI(buildUrl(stringUrl));
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Token", token);
+            httpPost.setHeader("Content-type", "application/json");
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+            InputStream inputStream = httpResponse.getEntity().getContent();
+            if(inputStream != null){
+                Log.d("Valor", "HttpGet: "+ ReadResponse(inputStream));
+
+                return ReadResponse(inputStream);
+            }
             else
                 return "";
         } catch (ClientProtocolException e) {

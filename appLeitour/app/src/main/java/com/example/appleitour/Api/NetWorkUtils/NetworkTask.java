@@ -12,6 +12,7 @@ public class NetworkTask extends AsyncTask<String, Void, String>{
     public NetworkTask(Activity _context){
         context = _context;
     }
+    public static AsyncResponse delegate = null;
     @Override
     protected String doInBackground(String... params) {
         try {
@@ -20,6 +21,7 @@ public class NetworkTask extends AsyncTask<String, Void, String>{
                 case NetworkUtils.POST: return NetworkUtils.HttpPost(params[1],params[2],params[3]);
                 case NetworkUtils.PUT: return NetworkUtils.HttpPut(params[1],params[2],params[3]);
                 case NetworkUtils.DELETE: return NetworkUtils.HttpDelete(params[1],params[2]);
+                case NetworkUtils.AUTO_LOGIN: return NetworkUtils.HttpAutoLogin(params[1],params[2]);
                 default: return "";
             }
         } catch (IOException e) {
@@ -31,7 +33,6 @@ public class NetworkTask extends AsyncTask<String, Void, String>{
 
     @Override
     protected void onPostExecute(String result) {
-      //  Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        delegate.processFinish(result);
     }
-
 }

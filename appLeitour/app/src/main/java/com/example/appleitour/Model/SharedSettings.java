@@ -1,5 +1,6 @@
 package com.example.appleitour.Model;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +11,13 @@ public class SharedSettings extends AppCompatActivity{
     final static String TOKEN = "Token";
     final static String THEME = "Theme";
     final static String KEEP_LOGGED = "Keep_Logged";
-    SharedPreferences settings = getSharedPreferences(SHARED_NAME, 0);
+
+    Activity context;
+    SharedPreferences settings;
+    public SharedSettings(Activity context){
+        this.context = context;
+        this.settings = context.getSharedPreferences(SHARED_NAME, 0);
+    }
 
     public String GetToken(){
         return settings.getString(TOKEN, null);

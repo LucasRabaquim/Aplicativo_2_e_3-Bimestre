@@ -22,7 +22,7 @@ public class User {
     public User(String nameUser, String Password, String Email){
         this.nameUser = nameUser;
         this.Password = Password;
-        this.Email = Email ;
+        this.Email = Email;
         //this.photo = Byte.parseByte(null);
         this.Theme = 0;
         this.ActiveUser = true;

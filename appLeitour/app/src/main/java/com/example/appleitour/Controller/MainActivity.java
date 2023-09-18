@@ -1,41 +1,41 @@
 package com.example.appleitour.Controller;
 
-import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.AsyncTaskLoader;
-import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appleitour.Adapter.BookAdapter;
-import com.example.appleitour.Api.OpenLibraryUtils;
+import com.example.appleitour.Adapter.SavedAdapter;
+import com.example.appleitour.Api.NetWorkUtils.AsyncResponse;
+import com.example.appleitour.Api.NetWorkUtils.NetworkTask;
+import com.example.appleitour.Api.NetWorkUtils.NetworkUtils;
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
 import com.example.appleitour.SimpleAppWidget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>{
-
-    private ListView dataListView;
-    private EditText requestTag;
+public class MainActivity extends AppCompatActivity implements AsyncResponse {
+    private EditText searchBar;
+    private RecyclerView recyclerView;
+    private ArrayList<Book> books;
+    private SavedAdapter savedAdapter;
     private TextView errorMessage;
     private ProgressBar loadingBar;
-    private BookAdapter adapter;
+    private Button btnSearchBook;
     private static final int BOOK_SEARCH_LOADER = 1;
     private static final String BOOK_QUERY_TAG = "query";
 
@@ -43,16 +43,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        books = new ArrayList<>();
+        recyclerView = findViewById(R.id.recycler_returned_books);
+        savedAdapter = new SavedAdapter(MainActivity.this,books);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(savedAdapter);
 
         loadingBar = findViewById(R.id.loadingBar);
         errorMessage = findViewById(R.id.errorMessage);
-        requestTag = findViewById(R.id.requestTag);
-
-        dataListView = findViewById(R.id.dataListView);
-        dataListView.setEmptyView(errorMessage);
-
-        adapter = new BookAdapter(getApplicationContext());
-        dataListView.setAdapter((adapter));
+        searchBar = findViewById(R.id.searchBookBar);
+        btnSearchBook = findViewById(R.id.btn_SearchBook);
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
@@ -64,21 +64,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             SimpleAppWidget simpleAppWidget = new SimpleAppWidget();
             simpleAppWidget.onUpdate(this, appWidgetManager, appWidgetIds);
         }
-
-        dataListView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Book book = (Book) adapterView.getItemAtPosition(i);
-            Intent intent = new Intent(getApplicationContext(), BookActivity.class);
-            intent.putExtra("Book",book);
-            startActivity(intent);
-        });
-
-
-        if(savedInstanceState != null) {
-            String queryUrl = savedInstanceState.getString((BOOK_QUERY_TAG));
-            requestTag.setText((queryUrl));
-        }
-
-        LoaderManager.getInstance(this).initLoader(BOOK_SEARCH_LOADER, null, this);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -96,93 +81,33 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             finish();
             return false;
         });
+
+
+        btnSearchBook.setOnClickListener(view ->{
+            String bookQuery = searchBar.getText().toString();
+            String url =("SearchBy/Title/"+bookQuery).replace(" ","+");
+            NetworkTask task = new NetworkTask(MainActivity.this);
+            task.execute(NetworkUtils.GET,url,null,null);
+        });
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putString(BOOK_QUERY_TAG, requestTag.getText().toString().trim());
-    }
-
-    @NonNull
-    @SuppressLint("StaticFieldLeak")
-    public Loader<List<Book>> onCreateLoader(int id, final Bundle args) {
-        return new AsyncTaskLoader<List<Book>>(this) {
-            List<Book> mBookList;
-            @Override
-            protected void onStartLoading() {
-                if (args == null) {
-                    return;
-                }
-
-                loadingBar.setVisibility(View.VISIBLE);
-
-                if (mBookList != null) {
-                    deliverResult(mBookList);
-                } else {
-                    forceLoad();
-                }
-            }
-
-            @Nullable
-            @Override
-            public List<Book> loadInBackground() {
-                String searchQueryUrlString = args.getString(BOOK_QUERY_TAG);
-
-                try {
-                    return OpenLibraryUtils.getDataFromApi(searchQueryUrlString);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-
-            @Override
-            public void deliverResult(@Nullable List<Book> data) {
-                mBookList = data;
-                super.deliverResult(data);
-            }
-        };
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<List<Book>> loader, List<Book> data) {
-        loadingBar.setVisibility(View.INVISIBLE);
-
-        if(null == data)
-            showErrorMessage();
-        else {
-            adapter.clear();
-            adapter.addAll(data);
-            showJsonDataView();
+    public void processFinish(String output) {
+        Log.d("TAG", output);
+        try {
+            ArrayList<Book> apiBooks = (ArrayList<Book>) Arrays.asList(new GsonBuilder().create().fromJson(output, Book[].class));
+            books.addAll(apiBooks);
+            recyclerView.notifyAll();
+            Log.d("TAG", "OIEEEE: ");
+        }catch(Exception e){
+            Log.d("TAG", e.toString());
         }
     }
-
-    public void onLoaderReset(@NonNull Loader<List<Book>> loader) {}
 
     private void showJsonDataView() {
         errorMessage.setVisibility(View.INVISIBLE);
-        dataListView.setVisibility(View.VISIBLE);
     }
-
     private void showErrorMessage() {
-        dataListView.setVisibility(View.INVISIBLE);
         errorMessage.setVisibility(View.VISIBLE);
     }
-    public void searchBook(View view) {
-        makeBookSearchQuery();
-    }
-    private void makeBookSearchQuery() {
-        String bookQuery = requestTag.getText().toString();
-        Bundle queryBundle = new Bundle();
-        queryBundle.putString(BOOK_QUERY_TAG, bookQuery);
-        LoaderManager loaderManager = LoaderManager.getInstance(this);
-        Loader<String> bookSearchLoader = loaderManager.getLoader(BOOK_SEARCH_LOADER);
-        if (bookSearchLoader == null) {
-            loaderManager.initLoader(BOOK_SEARCH_LOADER, queryBundle, this);
-        } else {
-            loaderManager.restartLoader(BOOK_SEARCH_LOADER, queryBundle, this);
-        }
-    }
-
 }
