@@ -2,6 +2,7 @@ package com.example.appleitour.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -65,6 +66,9 @@ public class CadastrarActivity extends AppCompatActivity implements AsyncRespons
             finish();
         }
         catch(Exception ex){
+            Toast.makeText(getApplicationContext(), output, Toast.LENGTH_SHORT).show();
+            Log.d("TAG", "processFinish: "+ex);
         }
     }
+
 }

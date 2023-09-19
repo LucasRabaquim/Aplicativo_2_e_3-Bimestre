@@ -1,15 +1,14 @@
 package com.example.appleitour.Api.NetWorkUtils;
 
-
 import android.app.Activity;
 import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class NetworkTask extends AsyncTask<String, Integer, String>{
+public class AnnotationTask extends AsyncTask<String, Integer, String> {
     Activity context;
-    public NetworkTask(Activity _context){
+    public AnnotationTask(Activity _context){
         super();
         context = _context;
     }
@@ -34,7 +33,7 @@ public class NetworkTask extends AsyncTask<String, Integer, String>{
 
     @Override
     protected void onProgressUpdate(Integer... progress){
-       // super.onProgressUpdate(progress);
+        // super.onProgressUpdate(progress);
         context.setProgress(progress[0]);
     }
     @Override

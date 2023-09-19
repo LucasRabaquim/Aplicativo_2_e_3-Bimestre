@@ -24,7 +24,6 @@ import java.net.URISyntaxException;
 
 public class NetworkUtils {
     private static final String API_URL = "http://192.168.15.31:80/api/";
-
     public static final String GET = "GET";
     public static final String POST = "POST";
     public static final String PUT = "UPDATE";
@@ -112,9 +111,11 @@ public class NetworkUtils {
             else
                 return "";
         } catch (ClientProtocolException e) {
-            throw new RuntimeException(e);
+           // Toast.makeText(activity, "Verifique o sinal de internet", Toast.LENGTH_SHORT).show();
+            return e.toString();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+           // Toast.makeText(activity, "Tente novamente", Toast.LENGTH_SHORT).show();
+            return e.toString();
         }
     }
 

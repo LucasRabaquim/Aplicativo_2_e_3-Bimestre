@@ -1,10 +1,5 @@
 package com.example.appleitour.Model;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-
-import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
 public class Book implements Serializable {
@@ -33,6 +28,12 @@ public class Book implements Serializable {
         this.sinopse = _sinopse;
         this.language = _language;
         this.year = _year;
+    }
+
+    public Book(String a) {
+        this.name = "_name";
+        this.author = "_author";
+        this.publisher = "_publisher";
     }
 
 

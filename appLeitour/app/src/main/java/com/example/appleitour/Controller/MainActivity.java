@@ -23,18 +23,16 @@ import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
 import com.example.appleitour.SimpleAppWidget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private EditText searchBar;
     private RecyclerView recyclerView;
-    private ArrayList<Book> books;
     private SavedAdapter savedAdapter;
     private TextView errorMessage;
     private ProgressBar loadingBar;
+    private ArrayList<Book> books;
     private Button btnSearchBook;
     private static final int BOOK_SEARCH_LOADER = 1;
     private static final String BOOK_QUERY_TAG = "query";
@@ -91,23 +89,33 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         });
     }
 
-    @Override
-    public void processFinish(String output) {
-        Log.d("TAG", output);
-        try {
-            ArrayList<Book> apiBooks = (ArrayList<Book>) Arrays.asList(new GsonBuilder().create().fromJson(output, Book[].class));
-            books.addAll(apiBooks);
-            recyclerView.notifyAll();
-            Log.d("TAG", "OIEEEE: ");
-        }catch(Exception e){
-            Log.d("TAG", e.toString());
-        }
-    }
 
     private void showJsonDataView() {
         errorMessage.setVisibility(View.INVISIBLE);
     }
     private void showErrorMessage() {
         errorMessage.setVisibility(View.VISIBLE);
+    }
+
+    public void processFinish(String out) {
+        Log.d("AEEE TAG", out);
+        try {/*
+            JsonArray jsonArray = new JsonParser().parse(out).getAsJsonArray();
+
+            ArrayList<Book> apiBooks = new ArrayList();
+            for (int i = 0, l = jsonArray.size(); i < l; i++) {
+                Gson gson = new Gson();
+                Book book = gson.fromJson(jsonArray.get(i).toString(),  Book.class);
+                apiBooks.add(book);
+            }*/
+            books.clear();
+            Book book = new Book("a");
+            ArrayList<Book> apiBooks = new ArrayList();
+            apiBooks.add(book);
+            books.addAll(apiBooks);
+            savedAdapter.notifyDataSetChanged();
+        }catch(Exception e){}
+
+
     }
 }
