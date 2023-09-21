@@ -18,6 +18,9 @@ public class SharedSettings extends AppCompatActivity{
         this.context = context;
         this.settings = context.getSharedPreferences(SHARED_NAME, 0);
     }
+    public SharedSettings(){
+        this.settings = context.getSharedPreferences(SHARED_NAME, 0);
+    }
 
     public String GetToken(){
         return settings.getString(TOKEN, null);

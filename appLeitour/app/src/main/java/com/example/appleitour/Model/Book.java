@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
     private String key;
+    private int savedId;
     private String isbn;
     private String name;
     private String author;
@@ -36,6 +37,8 @@ public class Book implements Serializable {
         this.publisher = "_publisher";
     }
 
+    public void setSavedId(int savedId){this.savedId = savedId;}
+    public int getSavedId(){return this.savedId;}
 
     public void setKey(String _key){this.key = _key;}
     public String getKey(){return this.key;}

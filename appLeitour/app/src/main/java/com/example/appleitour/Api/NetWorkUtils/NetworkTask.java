@@ -2,7 +2,11 @@ package com.example.appleitour.Api.NetWorkUtils;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -16,6 +20,8 @@ public class NetworkTask extends AsyncTask<String, Integer, String>{
     public static AsyncResponse delegate = null;
     @Override
     protected String doInBackground(String... params) {
+        if(!isNetworkAvailable(context))
+            return "Verifique a conexão";
         try {
             switch(params[0]){
                 case NetworkUtils.GET: return NetworkUtils.HttpGet(params[1],params[2]);
@@ -34,11 +40,19 @@ public class NetworkTask extends AsyncTask<String, Integer, String>{
 
     @Override
     protected void onProgressUpdate(Integer... progress){
+        Log.d("Progresso: ",progress[0].toString());
        // super.onProgressUpdate(progress);
         context.setProgress(progress[0]);
     }
     @Override
     protected void onPostExecute(String result) {
         delegate.processFinish(result);
+    }
+
+    private boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

@@ -4,12 +4,12 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,17 +34,24 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private ProgressBar loadingBar;
     private ArrayList<Book> books;
     private Button btnSearchBook;
+
+    private String API_RESPONSE = "Api_Response";
     private static final int BOOK_SEARCH_LOADER = 1;
-    private static final String BOOK_QUERY_TAG = "query";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        books = new ArrayList<>();
+        Intent intent = getIntent();
+        String stringBooks = intent.getStringExtra(API_RESPONSE);
+        ArrayList<Book> apiBooks = NetworkUtils.jsonToBookList(stringBooks);
+
+        Toast.makeText(this,"Ent: "+stringBooks,Toast.LENGTH_SHORT).show();
+        books.addAll(apiBooks);
         recyclerView = findViewById(R.id.recycler_returned_books);
-        savedAdapter = new SavedAdapter(MainActivity.this,books);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        savedAdapter = new SavedAdapter(MainActivity.this,apiBooks);
         recyclerView.setAdapter(savedAdapter);
 
         loadingBar = findViewById(R.id.loadingBar);
@@ -65,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            Intent intent;
+            Intent switchIntent;
             Class classe;
             int itemId = item.getItemId();
             if (itemId == R.id.nav_saved)
@@ -74,21 +81,20 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 classe = MainActivity.class;
             else
                 classe = CadastrarActivity.class;
-            intent = new Intent(getApplicationContext(), classe);
-            startActivity(intent);
+            switchIntent = new Intent(getApplicationContext(), classe);
+            startActivity(switchIntent);
             finish();
             return false;
         });
 
-
         btnSearchBook.setOnClickListener(view ->{
             String bookQuery = searchBar.getText().toString();
             String url =("SearchBy/Title/"+bookQuery).replace(" ","+");
+            Toast.makeText(this, "Pesquisando por: "+bookQuery, Toast.LENGTH_SHORT).show();
             NetworkTask task = new NetworkTask(MainActivity.this);
             task.execute(NetworkUtils.GET,url,null,null);
         });
     }
-
 
     private void showJsonDataView() {
         errorMessage.setVisibility(View.INVISIBLE);
@@ -98,24 +104,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     }
 
     public void processFinish(String out) {
-        Log.d("AEEE TAG", out);
-        try {/*
-            JsonArray jsonArray = new JsonParser().parse(out).getAsJsonArray();
-
-            ArrayList<Book> apiBooks = new ArrayList();
-            for (int i = 0, l = jsonArray.size(); i < l; i++) {
-                Gson gson = new Gson();
-                Book book = gson.fromJson(jsonArray.get(i).toString(),  Book.class);
-                apiBooks.add(book);
-            }*/
-            books.clear();
-            Book book = new Book("a");
-            ArrayList<Book> apiBooks = new ArrayList();
-            apiBooks.add(book);
-            books.addAll(apiBooks);
-            savedAdapter.notifyDataSetChanged();
-        }catch(Exception e){}
-
-
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        intent.putExtra(API_RESPONSE,out);
+        startActivity(intent);
+        //finish();
     }
 }
