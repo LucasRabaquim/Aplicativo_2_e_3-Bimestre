@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             else if(itemId == R.id.nav_sair)
                 classe = CadastrarActivity.class;
             else {
-                classe = UserOptionsActivity.class;
                 Intent thisIntent = getIntent();
-                intent = new Intent(getApplicationContext(), classe);
-                intent.putExtra("USER",thisIntent.getStringExtra("USER"));
+                String strUser = thisIntent.getStringExtra("USER");
+                intent = new Intent(getApplicationContext(), UserOptionsActivity.class);
+                intent.putExtra("USER",strUser);
                 startActivity(intent);
                 return false;
             }
@@ -122,7 +122,5 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             books.addAll(apiBooks);
             savedAdapter.notifyDataSetChanged();
         }catch(Exception e){}
-
-
     }
 }

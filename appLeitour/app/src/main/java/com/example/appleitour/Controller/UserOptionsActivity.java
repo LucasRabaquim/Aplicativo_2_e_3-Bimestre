@@ -42,6 +42,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -64,7 +65,18 @@ public class UserOptionsActivity extends AppCompatActivity implements AsyncRespo
         strUser = thisIntent.getStringExtra("USER");
         Gson gson = new Gson();
         User user = gson.fromJson(strUser,  User.class);
-
+        JSONObject json = null;
+        try {
+            json = new JSONObject(strUser);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            user.setEmail(json.getString("email"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        Log.d("Valor usuario",strUser);
         editSenha.setText(user.getPassword());
         editName.setText(user.getNameUser());
 
@@ -109,10 +121,14 @@ public class UserOptionsActivity extends AppCompatActivity implements AsyncRespo
     public void processFinish(String output){
         try {
             Toast.makeText(getApplicationContext(), output, Toast.LENGTH_SHORT).show();
+            Intent intent;
             Log.d("Erro", "processFinish: "+output);
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            if(output == "Você desativou o usuário")
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
+            else
+                intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.putExtra("USER",strUser);
-            startActivity(intent);
+            finish();
         }
         catch(Exception ex){
         }
