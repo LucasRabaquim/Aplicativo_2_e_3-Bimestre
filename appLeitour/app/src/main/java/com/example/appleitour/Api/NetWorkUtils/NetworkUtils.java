@@ -1,10 +1,8 @@
 package com.example.appleitour.Api.NetWorkUtils;
 
-import com.example.appleitour.Model.Annotation;
-import com.example.appleitour.Model.Book;
+import android.util.Log;
+
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -23,10 +21,10 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 public class NetworkUtils {
-    private static final String API_URL = "http://192.168.15.31:80/api/";
+    public static final String API_URL = "http://192.168.15.31:80/api/";
+
     public static final String GET = "GET";
     public static final String POST = "POST";
     public static final String PUT = "UPDATE";
@@ -37,7 +35,7 @@ public class NetworkUtils {
         return buildURI;
     }
 
-    public String ObjectToString(Object object){
+    public static String ObjectToString(Object object){
         Gson gson = new Gson();
         return gson.toJson(object);
     }
@@ -64,10 +62,8 @@ public class NetworkUtils {
             httpPost.setHeader("Content-type", "application/json");
             HttpResponse httpResponse = httpclient.execute(httpPost);
             InputStream inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null){
-                String response = ReadResponse(inputStream);
-                return response;
-            }
+            if(inputStream != null)
+                return ReadResponse(inputStream);
             else
                 return "";
         } catch (ClientProtocolException e) {
@@ -88,8 +84,9 @@ public class NetworkUtils {
             HttpResponse httpResponse = httpclient.execute(httpPost);
             InputStream inputStream = httpResponse.getEntity().getContent();
             if(inputStream != null){
-                String response = ReadResponse(inputStream);
-                return response;
+                Log.d("Valor", "HttpGet: "+ ReadResponse(inputStream));
+
+                return ReadResponse(inputStream);
             }
             else
                 return "";
@@ -111,18 +108,14 @@ public class NetworkUtils {
             httpGet.setHeader("Content-type", "application/json");
             HttpResponse httpResponse = httpclient.execute(httpGet);
             InputStream inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null){
-                String response = ReadResponse(inputStream);
-                return response;
-            }
+            if(inputStream != null)
+                return ReadResponse(inputStream);
             else
                 return "";
         } catch (ClientProtocolException e) {
-           // Toast.makeText(activity, "Verifique o sinal de internet", Toast.LENGTH_SHORT).show();
-            return e.toString();
+            throw new RuntimeException(e);
         } catch (IOException e) {
-           // Toast.makeText(activity, "Tente novamente", Toast.LENGTH_SHORT).show();
-            return e.toString();
+            throw new RuntimeException(e);
         }
     }
 
@@ -138,10 +131,8 @@ public class NetworkUtils {
             httpPut.setHeader("Content-type", "application/json");
             HttpResponse httpResponse = httpclient.execute(httpPut);
             InputStream inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null){
-                String response = ReadResponse(inputStream);
-                return response;
-            }
+            if(inputStream != null)
+                return ReadResponse(inputStream);
             else
                 return "";
         } catch (ClientProtocolException e) {
@@ -154,18 +145,16 @@ public class NetworkUtils {
     public static String HttpDelete (String stringUrl, String token) throws URISyntaxException {
         URI url = new URI(buildUrl(stringUrl));
         try {
-            HttpClient client = new DefaultHttpClient();
+            HttpClient httpclient = new DefaultHttpClient();
             HttpDelete httpDelete = new HttpDelete(url);
             httpDelete.setHeader("Accept", "application/json");
             if(token != null)
                 httpDelete.setHeader("Token", token);
             httpDelete.setHeader("Content-type", "application/json");
-            HttpResponse httpResponse = client.execute(httpDelete);
+            HttpResponse httpResponse = httpclient.execute(httpDelete);
             InputStream inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null){
-                String response = ReadResponse(inputStream);
-                return response;
-            }
+            if(inputStream != null)
+                return ReadResponse(inputStream);
             else
                 return "";
         } catch (ClientProtocolException e) {
@@ -173,36 +162,6 @@ public class NetworkUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static ArrayList<Book> jsonToBookList(String out){
-        try {
-            JsonArray jsonArray = new JsonParser().parse(out).getAsJsonArray();
-            ArrayList<Book> apiBooks = new ArrayList();
-            for (int i = 0; i < jsonArray.size() - 1; i++) {
-                Gson gson = new Gson();
-                Book book = gson.fromJson(jsonArray.get(i).toString(),  Book.class);
-                apiBooks.add(book);
-            }
-            return apiBooks;
-        }catch(Exception e){}
-        return new ArrayList<>();
-    }
-
-
-
-    public ArrayList<Annotation> jsonToArrayList(String out){
-        try {
-            JsonArray jsonArray = new JsonParser().parse(out).getAsJsonArray();
-            ArrayList<Annotation> apiAnnotation = new ArrayList();
-            for (int i = 0; i < jsonArray.size() - 1; i++) {
-                Gson gson = new Gson();
-                Annotation annotation = gson.fromJson(jsonArray.get(i).toString(),  Annotation.class);
-                apiAnnotation.add(annotation);
-            }
-            return apiAnnotation;
-        }catch(Exception e){}
-        return new ArrayList<>();
     }
 
 }

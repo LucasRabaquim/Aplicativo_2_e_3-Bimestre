@@ -7,15 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.example.appleitour.Model.Book;
 import com.example.appleitour.R;
-import com.squareup.picasso.Picasso;
 
-@Deprecated
 public class BookAdapter extends ArrayAdapter<Book> {
     public BookAdapter(@NonNull Context context) {
         super(context, 0);

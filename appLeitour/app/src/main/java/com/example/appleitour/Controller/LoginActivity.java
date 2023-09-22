@@ -2,6 +2,7 @@ package com.example.appleitour.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,6 +18,8 @@ import com.example.appleitour.Model.User;
 import com.example.appleitour.R;
 
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 public class LoginActivity extends AppCompatActivity implements AsyncResponse {
 
@@ -50,7 +53,12 @@ public class LoginActivity extends AppCompatActivity implements AsyncResponse {
 
     @Override
     public void processFinish(String output){
-    try {
+        if(output == "") {
+            Toast.makeText(getApplicationContext(), "Erro de internet, verifique a rede.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+        //output = URLEncoder.encode(output, "utf-8");
         JSONObject jsonResponse = new JSONObject(output);
         JSONObject user = jsonResponse.getJSONObject("user");
         SharedSettings settings = new SharedSettings(LoginActivity.this);
@@ -58,12 +66,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncResponse {
         settings.SetToken(jsonResponse.getString("token"));
         Toast.makeText(getApplicationContext(), "Seja bem-vindo(a): " + user.getString("nameUser"), Toast.LENGTH_SHORT).show();
         finish();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        intent.putExtra("USER",user.toString());
+        startActivity(intent);
     }
     catch(Exception ex){
+            Log.d("Erro: ", String.valueOf(ex));
         Toast.makeText(getApplicationContext(), output, Toast.LENGTH_SHORT).show();
     }
     }
-
-
 }

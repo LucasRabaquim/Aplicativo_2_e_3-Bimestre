@@ -1,10 +1,14 @@
 package com.example.appleitour.Model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
 public class Book implements Serializable {
     private String key;
-    private int savedId;
     private String isbn;
     private String name;
     private String author;
@@ -34,11 +38,8 @@ public class Book implements Serializable {
     public Book(String a) {
         this.name = "_name";
         this.author = "_author";
-        this.publisher = "_publisher";
     }
 
-    public void setSavedId(int savedId){this.savedId = savedId;}
-    public int getSavedId(){return this.savedId;}
 
     public void setKey(String _key){this.key = _key;}
     public String getKey(){return this.key;}

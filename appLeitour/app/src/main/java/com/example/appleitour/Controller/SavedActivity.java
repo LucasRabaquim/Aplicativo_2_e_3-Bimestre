@@ -1,57 +1,45 @@
 package com.example.appleitour.Controller;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
 import com.example.appleitour.Adapter.SavedAdapter;
-import com.example.appleitour.Api.NetWorkUtils.AsyncResponse;
-import com.example.appleitour.Api.NetWorkUtils.NetworkTask;
-import com.example.appleitour.Api.NetWorkUtils.NetworkUtils;
+import com.example.appleitour.Database.DatabaseHelper;
 import com.example.appleitour.Model.Book;
-import com.example.appleitour.Model.SharedSettings;
 import com.example.appleitour.R;
 import com.example.appleitour.SimpleAppWidget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 
-public class SavedActivity extends AppCompatActivity implements AsyncResponse {
+public class SavedActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    private String API_RESPONSE = "Api_Response";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved);
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
         // Obtém os IDs dos widgets do seu app
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, SimpleAppWidget.class));
+
         // Atualiza os widgets
         if (appWidgetIds != null && appWidgetIds.length > 0) {
             SimpleAppWidget simpleAppWidget = new SimpleAppWidget();
             simpleAppWidget.onUpdate(this, appWidgetManager, appWidgetIds);
         }
-        SharedSettings sharedSettings = new SharedSettings();
-        String token = sharedSettings.GetToken();
 
-        Toast.makeText(this, "Mostrando livros salvos", Toast.LENGTH_SHORT).show();
-        NetworkTask task = new NetworkTask(SavedActivity.this);
-        task.execute(NetworkUtils.GET,"SavedBooks",token,null);
-
-
-
-        /*
+        recyclerView = findViewById(R.id.recycler_saved_book);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
         SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
         int userId = settings.getInt("UserId", 0);
@@ -59,14 +47,7 @@ public class SavedActivity extends AppCompatActivity implements AsyncResponse {
         ArrayList<Book> books = databaseHelper.selectBooks(userId);
         SavedAdapter savedAdapter = new SavedAdapter(this,books);
         recyclerView.setAdapter(savedAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));*/
-
-
-        SharedSettings sharedSettings = new SharedSettings(SavedActivity.this);
-        String token = sharedSettings.GetToken();
-        String url =("books/SavedBooks");
-        NetworkTask task = new NetworkTask(SavedActivity.this);
-        task.execute(NetworkUtils.POST,url,token,null);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -84,26 +65,5 @@ public class SavedActivity extends AppCompatActivity implements AsyncResponse {
             finish();
             return false;
         });
-    }
-
-    public void processFinish(String out) {
-        ArrayList<Book> book = updateRecycleView(out);
-        SavedAdapter savedAdapter = new SavedAdapter(this,book);
-        recyclerView.setAdapter(savedAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    public ArrayList<Book> updateRecycleView(String out){
-        try {
-            JsonArray jsonArray = new JsonParser().parse(out).getAsJsonArray();
-            ArrayList<Book> apiBooks = new ArrayList();
-            for (int i = 0, l = jsonArray.size(); i < l; i++) {
-                Gson gson = new Gson();
-                Book book = gson.fromJson(jsonArray.get(i).toString(),  Book.class);
-                apiBooks.add(book);
-            }
-            return apiBooks;
-        }catch(Exception e){}
-        return new ArrayList<>();
     }
 }

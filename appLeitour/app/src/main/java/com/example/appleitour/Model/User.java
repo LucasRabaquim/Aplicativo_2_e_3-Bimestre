@@ -38,6 +38,7 @@ public class User {
     }
 
     public int getId() {return userId;}
+    public void setNameUser(String nameUser){this.nameUser = nameUser;}
     public String getNameUser(){return nameUser;}
     public String getPassword(){return Password;}
     public void setPassword(String Password){this.Password = Password;}

@@ -1,30 +1,32 @@
 package com.example.appleitour.Controller;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.appwidget.AppWidgetManager;
+        import android.content.ComponentName;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.ProgressBar;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appleitour.Adapter.SavedAdapter;
-import com.example.appleitour.Api.NetWorkUtils.AsyncResponse;
-import com.example.appleitour.Api.NetWorkUtils.NetworkTask;
-import com.example.appleitour.Api.NetWorkUtils.NetworkUtils;
-import com.example.appleitour.Model.Book;
-import com.example.appleitour.R;
-import com.example.appleitour.SimpleAppWidget;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.ArrayList;
+        import com.example.appleitour.Adapter.SavedAdapter;
+        import com.example.appleitour.Api.NetWorkUtils.AsyncResponse;
+        import com.example.appleitour.Api.NetWorkUtils.NetworkTask;
+        import com.example.appleitour.Api.NetWorkUtils.NetworkUtils;
+        import com.example.appleitour.Model.Book;
+        import com.example.appleitour.R;
+        import com.example.appleitour.SimpleAppWidget;
+        import com.google.android.material.bottomnavigation.BottomNavigationView;
+        import com.google.gson.Gson;
+        import org.json.JSONArray;
+        import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private EditText searchBar;
@@ -34,24 +36,17 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private ProgressBar loadingBar;
     private ArrayList<Book> books;
     private Button btnSearchBook;
-
-    private String API_RESPONSE = "Api_Response";
     private static final int BOOK_SEARCH_LOADER = 1;
+    private static final String BOOK_QUERY_TAG = "query";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = getIntent();
-        String stringBooks = intent.getStringExtra(API_RESPONSE);
-        ArrayList<Book> apiBooks = NetworkUtils.jsonToBookList(stringBooks);
-
-        Toast.makeText(this,"Ent: "+stringBooks,Toast.LENGTH_SHORT).show();
-        books.addAll(apiBooks);
+        books = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_returned_books);
-
+        savedAdapter = new SavedAdapter(MainActivity.this,books);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        savedAdapter = new SavedAdapter(MainActivity.this,apiBooks);
         recyclerView.setAdapter(savedAdapter);
 
         loadingBar = findViewById(R.id.loadingBar);
@@ -72,29 +67,39 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavBar);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            Intent switchIntent;
+            Intent intent;
             Class classe;
             int itemId = item.getItemId();
             if (itemId == R.id.nav_saved)
                 classe = SavedActivity.class;
             else if (itemId == R.id.nav_search)
                 classe = MainActivity.class;
-            else
+            else if(itemId == R.id.nav_sair)
                 classe = CadastrarActivity.class;
-            switchIntent = new Intent(getApplicationContext(), classe);
-            startActivity(switchIntent);
+            else {
+                classe = UserOptionsActivity.class;
+                Intent thisIntent = getIntent();
+                intent = new Intent(getApplicationContext(), classe);
+                intent.putExtra("USER",thisIntent.getStringExtra("USER"));
+                startActivity(intent);
+                return false;
+            }
+            intent = new Intent(getApplicationContext(), classe);
+            startActivity(intent);
             finish();
             return false;
         });
 
+
         btnSearchBook.setOnClickListener(view ->{
             String bookQuery = searchBar.getText().toString();
             String url =("SearchBy/Title/"+bookQuery).replace(" ","+");
-            Toast.makeText(this, "Pesquisando por: "+bookQuery, Toast.LENGTH_SHORT).show();
             NetworkTask task = new NetworkTask(MainActivity.this);
+            Toast.makeText(this,"Pesquisando...",Toast.LENGTH_SHORT).show();
             task.execute(NetworkUtils.GET,url,null,null);
         });
     }
+
 
     private void showJsonDataView() {
         errorMessage.setVisibility(View.INVISIBLE);
@@ -104,9 +109,20 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     }
 
     public void processFinish(String out) {
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-        intent.putExtra(API_RESPONSE,out);
-        startActivity(intent);
-        //finish();
+        try {
+            JSONArray jsonArray = new JSONArray(out);
+            ArrayList<Book> apiBooks = new ArrayList();
+            for (int i = 0, l = jsonArray.length(); i < l; i++) {
+                String jsonObj = jsonArray.getJSONObject(i).toString();
+                Gson gson = new Gson();
+                Book book = gson.fromJson(jsonObj,  Book.class);
+                apiBooks.add(book);
+            }
+            books.clear();
+            books.addAll(apiBooks);
+            savedAdapter.notifyDataSetChanged();
+        }catch(Exception e){}
+
+
     }
 }

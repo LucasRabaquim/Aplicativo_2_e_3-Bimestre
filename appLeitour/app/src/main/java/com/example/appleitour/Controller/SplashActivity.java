@@ -46,6 +46,4 @@ public class SplashActivity extends AppCompatActivity implements AsyncResponse {
             finish();
         }
     }
-
-
 }

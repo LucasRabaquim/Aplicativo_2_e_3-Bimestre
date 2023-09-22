@@ -56,12 +56,10 @@ public class BookActivity extends AppCompatActivity {
             SimpleAppWidget simpleAppWidget = new SimpleAppWidget();
             simpleAppWidget.onUpdate(this, appWidgetManager, appWidgetIds);
         }
-        Intent intent = getIntent();
-        Book book = (Book) getIntent().getSerializableExtra("Book");
-        //Book book = (Book) getIntent().getSerializableExtra("ANOTACOES");
 
-       // DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-       // db.getReadableDatabase()
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        db.getReadableDatabase();
+        Book book = (Book) getIntent().getSerializableExtra("Book");
         ImageView backgroundCover = findViewById(R.id.book_background);
         ImageView bookCover = findViewById(R.id.book_cover);
         TextView title = findViewById(R.id.book_title);
@@ -84,7 +82,7 @@ public class BookActivity extends AppCompatActivity {
         language.setText(res.getString(R.string.language,book.getLanguage()));
         pages.setText(res.getString(R.string.pages,book.getPages()));
 
-        /* if(!Objects.equals(book.getSinopse(), "-"))
+       /* if(!Objects.equals(book.getSinopse(), "-"))
             sinopse.setText(getResources().getString(R.string.sinopse,book.getSinopse()));*/
         if(Objects.equals(book.getIsbn(), ""))
             isbn.setVisibility(GONE);
@@ -101,7 +99,8 @@ public class BookActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_annotation);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
         SharedPreferences settings = getSharedPreferences("com.example.appleitour", 0);
-
+        int userId = settings.getInt("UserId", 0);
+        if(!db.checkUserBook(book.getKey(), userId)) {
             btnCreate.setVisibility(View.VISIBLE);
             int userBookId = db.selectBookId(book.getKey(), userId);
             changeIcon(R.color.yellow);
@@ -109,8 +108,7 @@ public class BookActivity extends AppCompatActivity {
             AnnotationAdapter annotationAdapter = new AnnotationAdapter(this,annotation,book);
             recyclerView.setAdapter(annotationAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
+        }
         btnCreate.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AnnotationActivity.class);
             intent.putExtra("Book",book);

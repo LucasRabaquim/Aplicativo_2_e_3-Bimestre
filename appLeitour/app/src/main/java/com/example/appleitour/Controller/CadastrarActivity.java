@@ -2,7 +2,6 @@ package com.example.appleitour.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -62,13 +61,12 @@ public class CadastrarActivity extends AppCompatActivity implements AsyncRespons
             settings.SetKeepLogged(keepLogged.isChecked());
             settings.SetToken(jsonResponse.getString("token"));
             Toast.makeText(getApplicationContext(), "Seja bem-vindo(a): " + user.getString("nameUser"), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            intent.putExtra("USER",user.toString());
+            startActivity(intent);
             finish();
         }
         catch(Exception ex){
-            Toast.makeText(getApplicationContext(), output, Toast.LENGTH_SHORT).show();
-            Log.d("TAG", "processFinish: "+ex);
         }
     }
-
 }

@@ -16,5 +16,9 @@
             android:id="@+id/nav_sair"
             android:icon="@drawable/sair"
             android:title="@string/sair" />
+        <item
+            android:id="@+id/nav_User"
+            android:icon="@drawable/user"
+            android:title="" />
     </group>
 </menu>
